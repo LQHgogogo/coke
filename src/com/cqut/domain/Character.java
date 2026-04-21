@@ -1,4 +1,4 @@
-package com.lqhang.domain;
+package com.cqut.domain;
 
 public class Character {
    public String name;

@@ -1,7 +1,7 @@
-package com.lqhang.ui;
+package com.cqut.ui;
 
-import com.lqhang.domain.Enemy;
-import com.lqhang.domain.Hero;
+import com.cqut.domain.Enemy;
+import com.cqut.domain.Hero;
 
 import java.util.ArrayList;
 import java.util.Random;

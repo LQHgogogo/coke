@@ -1,6 +1,6 @@
-package com.lqhang.ui;
+package com.cqut.ui;
 
-import com.lqhang.domain.User;
+import com.cqut.domain.User;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;

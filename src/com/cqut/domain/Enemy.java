@@ -1,4 +1,4 @@
-package com.lqhang.domain;
+package com.cqut.domain;
 
 public class Enemy extends  Character{
     public String skill;
