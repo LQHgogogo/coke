@@ -39,6 +39,18 @@ public class TextGame {
                 }
             }
 
+            //此板块写战前装备逻辑
+
+
+
+
+
+
+
+
+
+
+
             Random r=new Random();
             int index = r.nextInt(enemies.size());
             Enemy enemy = enemies.get(index);
@@ -60,8 +72,36 @@ public class TextGame {
                 if (!enemy.isAlive()){
                     System.out.println("你成功击败了"+enemy.name+"!");
                     win++;
+
+
+                    //此板块为装备掉落逻辑
+                    int rnum=0;
+                    rnum=r.nextInt(10)+1;
+                    if (rnum>=8-win*0.5){
+                        System.out.println("敌人掉落了物品");
+                        //player.bag.add(BagItem);
+                    }else {
+                        System.out.println("没有任何物品掉落");
+                    }
+
                     break;
                 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 enemyTurn(enemy,player);
 
@@ -280,7 +320,7 @@ public class TextGame {
                 break;
             case "举盾防御":
                 System.out.println("敌人使用了举盾防御");
-                enemy.denfending=true;
+                enemy.defending=true;
                 System.out.println(enemy.name+"已进入防御状态！");
                 break;
             case "咒术——火":

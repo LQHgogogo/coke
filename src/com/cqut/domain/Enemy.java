@@ -2,7 +2,7 @@ package com.cqut.domain;
 
 public class Enemy extends  Character{
     public String skill;
-    public boolean denfending;
+    public boolean defending;
 
     public Enemy()
     {
@@ -17,9 +17,9 @@ public class Enemy extends  Character{
 
     @Override
     public void takeDamage(int damage) {
-        if(denfending){
+        if(defending){
             super.takeDamage(damage/2);
-            denfending=false;
+            defending=false;
         }else{
             super.takeDamage(damage);
         }

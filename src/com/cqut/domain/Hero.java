@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 public class Hero extends  Character{
     public ArrayList<String> skillList;
+    public ArrayList<BagItem> bag;
     public int Lv;
     public int Exp;
 
     public Hero() {
         super();
         skillList = new ArrayList<String>();
+        bag = new ArrayList<BagItem>();
     }
 
     public Hero(String name,int HP,int attack,int defense){
