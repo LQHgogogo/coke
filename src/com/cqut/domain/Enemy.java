@@ -9,9 +9,9 @@ public class Enemy extends  Character{
     	super();
     }
 
-    public Enemy(String name,int HP,int atack,int defense,String skill)
+    public Enemy(String name,int HP,int attack,int defense,String skill)
     {
-    	super(name,HP,atack,defense);
+    	super(name,HP,attack,defense);
     	this.skill=skill;
     }
 

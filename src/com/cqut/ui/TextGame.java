@@ -211,9 +211,9 @@ public class TextGame {
 
         Hero player=new Hero(username,100+values[0]*10,10+values[1]*2,values[2]);
 
-        player.skillList.add("普通攻击");
-        player.skillList.add("强力一击");
-        player.skillList.add("生命汲取");
+        player.addSkill("普通攻击");
+        player.addSkill("强力一击");
+        player.addSkill("生命汲取");
 
         return  player;
     }

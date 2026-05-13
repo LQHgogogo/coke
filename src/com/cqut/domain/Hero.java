@@ -19,6 +19,10 @@ public class Hero extends  Character{
         skillList = new ArrayList<String>();
     }
 
+    public void addSkill(String skill){
+        skillList.add(skill);
+    }
+
     public String showSkill(){
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < skillList.size(); i++) {
