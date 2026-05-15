@@ -1,8 +1,9 @@
 package com.cqut.domain;
 
 public class Enemy extends  Character{
-    public String skill;
-    public boolean defending;
+    private String skill;
+    private boolean defending;
+    private int Lv;
 
     public Enemy()
     {
@@ -23,5 +24,35 @@ public class Enemy extends  Character{
         }else{
             super.takeDamage(damage);
         }
+    }
+
+    public int getLv()
+    {
+        return Lv;
+    }
+
+    public void setLv(int lv)
+    {
+        Lv=lv;
+    }
+
+    public String getSkill()
+    {
+        return skill;
+    }
+
+    public void setSkill(String skill)
+    {
+        this.skill = skill;
+    }
+
+    public boolean isDefending()
+    {
+        return defending;
+    }
+
+    public void setDefending(boolean defending)
+    {
+        this.defending = defending;
     }
 }

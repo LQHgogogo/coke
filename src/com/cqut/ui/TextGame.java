@@ -32,10 +32,10 @@ public class TextGame {
             if (win!=0){
                 for (int i=0;i<enemies.size();i++){
                     Enemy enemy = enemies.get(i);
-                    enemy.maxHP=enemy.maxHP+10;
-                    enemy.HP=enemy.maxHP;
-                    enemy.attack=enemy.attack+3;
-                    enemy.defense=enemy.defense+2;
+                    enemy.setMaxHP(enemy.getMaxHP()+10);
+                    enemy.setHP(enemy.getMaxHP());
+                    enemy.setAttack(enemy.getAttack()+3);
+                    enemy.setDefense(enemy.getDefense()+2);
                 }
             }
 
@@ -57,20 +57,20 @@ public class TextGame {
             System.out.println(enemy.showStatus());
 
             System.out.println("-----------------------------");
-            System.out.println("第"+count+"局对战开始!对手:"+enemy.name);
+            System.out.println("第"+count+"局对战开始!对手:"+enemy.getName());
 
             int round=1;
             while (player.isAlive()){
                 System.out.println("-----------------------------");
                 System.out.println("第"+round+"轮对战开始!");
-                System.out.println(getBlood(player.name,player.HP,player.maxHP));
-                System.out.println(getBlood(enemy.name,enemy.HP,enemy.maxHP));
+                System.out.println(getBlood(player.getName(),player.getHP(),player.getMaxHP()));
+                System.out.println(getBlood(enemy.getName(),enemy.getHP(),enemy.getMaxHP()));
 
                 //开始战斗
                 playerTurn(player, enemy,win);
 
                 if (!enemy.isAlive()){
-                    System.out.println("你成功击败了"+enemy.name+"!");
+                    System.out.println("你成功击败了"+enemy.getName()+"!");
                     win++;
 
 
@@ -106,7 +106,7 @@ public class TextGame {
                 enemyTurn(enemy,player);
 
                 if (!player.isAlive()){
-                    System.out.println("你被"+enemy.name+"击败了！");
+                    System.out.println("你被"+enemy.getName()+"击败了！");
                     break;
                 }
 
@@ -120,9 +120,9 @@ public class TextGame {
             }else{
                 if (win>0&&win%3==0){
                     System.out.println("恭喜你属性获得提升");
-                    player.maxHP=player.maxHP+30+win;
-                    player.attack+=5;
-                    player.defense+=3;
+                    player.setMaxHP(player.getMaxHP()+30+win);
+                    player.setAttack(player.getAttack()+5);
+                    player.setDefense(player.getDefense()+3);
                 }
                 int healHP = r.nextInt(21)+20+win*2;
                 player.heal(healHP);
@@ -176,7 +176,8 @@ public class TextGame {
         return sb.toString();
     }
 
-    public Hero creatCharacter(String username) {
+    public Hero creatCharacter(String username)
+    {
         System.out.println("创建你的角色：");
         System.out.println("你的角色名为："+ username);
 
@@ -221,18 +222,18 @@ public class TextGame {
     public static void playerTurn(Hero player, Enemy enemy,int wins){
         System.out.println("===你的回合===");
         System.out.println("请选择技能：");
-        for (int i=0;i<player.skillList.size();i++){
-            System.out.println((i+1)+"."+player.skillList.get(i)+" ");
+        for (int i=0;i<player.getSkillList().size();i++){
+            System.out.println((i+1)+"."+player.getSkillList().get(i)+" ");
         }
         Scanner sc = new Scanner(System.in);
         int input = -1;
         while (true) {
             if (sc.hasNextInt()) {
                 input = sc.nextInt() - 1;
-                if (input >= 0 && input < player.skillList.size()) {
+                if (input >= 0 && input < player.getSkillList().size()) {
                     break;
                 } else {
-                    System.out.println("无效输入，请输入 1-" + player.skillList.size() + " 之间的数字：");
+                    System.out.println("无效输入，请输入 1-" + player.getSkillList().size() + " 之间的数字：");
                 }
             } else {
                 System.out.println("无效输入，请输入数字：");
@@ -243,26 +244,26 @@ public class TextGame {
         switch ( input){
             case 0:
                 System.out.println("你选择了普通攻击");
-                int demage1 = calculateDamage(player.attack,enemy.defense);
-                System.out.println("你使用普通攻击对"+enemy.name+"，造成"+demage1+"点伤害！");
+                int demage1 = calculateDamage(player.getAttack(),enemy.getDefense());
+                System.out.println("你使用普通攻击对"+enemy.getName()+"，造成"+demage1+"点伤害！");
                 enemy.takeDamage(demage1);
                 break;
             case 1:
-                if (player.HP>=10){
+                if (player.getHP()>=10){
                     System.out.println("你选择了强力一击(那么力量的代价是什么呢——消耗10点生命)");
                     player.takeDamage(10);
-                    int demage2 = calculateDamage(player.attack*2,enemy.defense);
+                    int demage2 = calculateDamage(player.getAttack()*2,enemy.getDefense());
                     enemy.takeDamage(demage2);
-                    System.out.println("你使用强力一击对"+enemy.name+"，造成"+demage2+"点伤害！");
+                    System.out.println("你使用强力一击对"+enemy.getName()+"，造成"+demage2+"点伤害！");
                 }else {
                     System.out.println("你的生命值不足，无法使用该技能，但使用普通攻击");
-                    int demage3 = calculateDamage(player.attack,enemy.defense);
-                    System.out.println("你使用普通攻击对"+enemy.name+"，造成"+demage3+"点伤害！");
+                    int demage3 = calculateDamage(player.getAttack(),enemy.getDefense());
+                    System.out.println("你使用普通攻击对"+enemy.getName()+"，造成"+demage3+"点伤害！");
                     enemy.takeDamage(demage3);
                 }
                 break;
             case 2:
-                if (player.HP>=10){
+                if (player.getHP()>=10){
                     System.out.println("你选择了生命汲取(绝望中的生机——消耗10点生命)");
                     player.takeDamage(10);
                     Random r=new Random();
@@ -271,15 +272,15 @@ public class TextGame {
                     System.out.println("你回复了"+heal+"点生命值！");
                 }else {
                     System.out.println("你的生命值不足，无法使用该技能,但还是用出了普通攻击");
-                    int demage4=calculateDamage(player.attack,enemy.defense);
+                    int demage4=calculateDamage(player.getAttack(),enemy.getDefense());
                     enemy.takeDamage(demage4);
-                    System.out.println("你使用普通攻击对"+enemy.name+"，造成"+demage4+"点伤害！");
+                    System.out.println("你使用普通攻击对"+enemy.getName()+"，造成"+demage4+"点伤害！");
                 }
                 break;
             default:
                 System.out.println("无效输入,默认进行普通攻击");
-                int demage5=calculateDamage(player.attack,enemy.defense);
-                System.out.println("你使用普通攻击对"+enemy.name+"，造成"+demage5+"点伤害！");
+                int demage5=calculateDamage(player.getAttack(),enemy.getDefense());
+                System.out.println("你使用普通攻击对"+enemy.getName()+"，造成"+demage5+"点伤害！");
                 enemy.takeDamage(demage5);
                 break;
         }
@@ -293,40 +294,40 @@ public class TextGame {
         Random r=new Random();
         int randomNum = r.nextInt(2);
         if (randomNum==1){
-            action= enemy.skill;
+            action= enemy.getSkill();
         }
 
         switch (action){
             case "普通攻击":
                 System.out.println("敌人使用了普通攻击");
-                int demage1=calculateDamage(enemy.attack,player.defense);
-                System.out.println(enemy.name+"使用普通攻击，对我造成了"+demage1+"点伤害！");
+                int demage1=calculateDamage(enemy.getAttack(),player.getDefense());
+                System.out.println(enemy.getName()+"使用普通攻击，对我造成了"+demage1+"点伤害！");
                 player.takeDamage(demage1);
                 break;
             case "力拔山兮":
                 System.out.println("敌人使用了力拔山兮");
-                int demage2=calculateDamage((int)(enemy.attack*1.5),player.defense);
-                System.out.println(enemy.name+"使用力拔山兮，对我造成了"+demage2+"点伤害！");
+                int demage2=calculateDamage((int)(enemy.getAttack()*1.5),player.getDefense());
+                System.out.println(enemy.getName()+"使用力拔山兮，对我造成了"+demage2+"点伤害！");
                 player.takeDamage(demage2);
                 break;
             case "闪身连刺":
                 System.out.println("敌人使用了闪身连刺");
                 int demage3=0;
                 for (int i=0;i<2;i++){
-                    demage3+=calculateDamage(enemy.attack/2, player.defense/3);
+                    demage3+=calculateDamage(enemy.getAttack()/2, player.getDefense()/3);
                 }
-                System.out.println(enemy.name+"使用闪身连刺，对我造成了"+demage3+"点伤害！");
+                System.out.println(enemy.getName()+"使用闪身连刺，对我造成了"+demage3+"点伤害！");
                 player.takeDamage(demage3);
                 break;
             case "举盾防御":
                 System.out.println("敌人使用了举盾防御");
-                enemy.defending=true;
-                System.out.println(enemy.name+"已进入防御状态！");
+                enemy.setDefending(true);
+                System.out.println(enemy.getName()+"已进入防御状态！");
                 break;
             case "咒术——火":
                 System.out.println("敌人使用了咒术——火");
-                int demage4=calculateDamage((int)(enemy.attack*1.8),player.defense/2);
-                System.out.println(enemy.name+"使用了咒术——火，对我造成了"+demage4+"点伤害！");
+                int demage4=calculateDamage((int)(enemy.getAttack()*1.8),player.getDefense()/2);
+                System.out.println(enemy.getName()+"使用了咒术——火，对我造成了"+demage4+"点伤害！");
                 player.takeDamage(demage4);
                 break;
         }
