@@ -1,6 +1,7 @@
 package com.cqut.ui;
 
 import com.cqut.domain.User;
+import com.cqut.util.InputValidator;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
@@ -18,16 +19,15 @@ public class login {
             System.out.println("请选择操作：1登录 2注册 3退出");
 
             Scanner sc = new Scanner(System.in);
-            String choice = sc.next();
+            int choice = InputValidator.validateMenuChoice(sc, 1, 3);
 
             switch (choice){
-                case"1"->login(list);
-                case"2"->register(list);
-                case"3"-> {
+                case 1->login(list);
+                case 2->register(list);
+                case 3-> {
                     System.out.println("用户选择了退出操作");
-                    System.exit(0);      //停止虚拟机
+                    System.exit(0);
                 }
-                default -> System.out.println("输入了无效的操作");
             }
         }
     }
@@ -91,47 +91,13 @@ public class login {
 
         User u = new User();
         Scanner sc = new Scanner(System.in);
-        //ctrl+alt+T  语句包裹
-        while (true) {
-            System.out.println("请输入用户名：");
-            String username = sc.next();
-            //验证用户名是否合法
-            if (!checklen(username,3,16)) {
-                System.out.println("用户名长度必须在3-16之间");
-                continue;
-            }
-            if (!checkUsername(username)) {
-                System.out.println("用户名只能且必须包含字母和数字");
-                continue;
-            }
-            if (contains(list,username)){
-                System.out.println("用户名已存在,请重新输入");
-                continue;
-            }
-            u.setUsername(username);
-            break;
-        }   //输入用户名
 
-        while (true) {
-            System.out.println("请输入密码：");
-            String password1 = sc.next();
-            System.out.println("请再次输入密码：");
-            String password2 = sc.next();
-            if (!checklen(password1,3,8)){
-                System.out.println("密码长度必须在3-8之间");
-                continue;
-            }
-            if (!checkPassword(password1)){
-                System.out.println("密码只能且必须包含字母和数字");
-                continue;
-            }
-            if (!password1.equals(password2)){
-                System.out.println("两次输入的密码不一致");
-                continue;
-            }
-            u.setPassword(password1);
-            break;
-        }   //输入密码
+        String username = InputValidator.validateUsername(sc, list);
+        u.setUsername(username);
+
+        String password = InputValidator.validatePassword(sc);
+        u.setPassword(password);
+
         list.add(u);
         System.out.println("用户"+u.getUsername()+"注册成功！");
 

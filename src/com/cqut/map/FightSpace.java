@@ -22,6 +22,7 @@ public class FightSpace
         int round = 1;
         while (player.isAlive() && enemy.isAlive())
         {
+            System.out.println("\n");
             System.out.println(player.getName() + "的生命值：" + player.getHP() + "/" + player.getMaxHP());
             System.out.println("敌人“" + enemy.getName() + "”的生命值：" + enemy.getHP() + "/" + enemy.getMaxHP());
 
@@ -32,11 +33,15 @@ public class FightSpace
             if (player.isAlive() && !enemy.isAlive())
             {
                 System.out.println("敌人“" + enemy.getName() + "”已被击溃！战斗结束");
+                int addHp = enemy.getLv() *  5 + 10;
+                player.heal(addHp);
+                System.out.println("你恢复了" + addHp + "点生命值");
             }
             else if (enemy.isAlive() && !player.isAlive())
             {
                 System.out.println("你被" + enemy.getName() + "击溃了！");
                 System.out.println("看来" + player.getName() + "的故事到此结束！");
+                break;
             }
             else
             {
@@ -63,6 +68,7 @@ public class FightSpace
 
     public static void playerTurn(Hero player, Enemy enemy)
     {
+        System.out.println("\n");
         System.out.println("===你的回合===");
         System.out.println("请选择技能：");
         for (int i=0;i<player.getSkillList().size();i++)
@@ -123,7 +129,7 @@ public class FightSpace
                     System.out.println("你选择了生命汲取(绝望中的生机——消耗10点生命)");
                     player.takeDamage(10);
                     Random r=new Random();
-                    int heal = r.nextInt(30+(int)(player.getLv()*1.5))+1;
+                    int heal = r.nextInt(30+(int)(player.getLv()*2))+5;
                     player.heal(heal);
                     System.out.println("你回复了"+heal+"点生命值！");
                 }
@@ -146,6 +152,7 @@ public class FightSpace
 
     public static void enemyTurn(Enemy enemy,Hero player)
     {
+        System.out.println("\n");
         System.out.println("===敌人回合===");
 
         String action="普通攻击";

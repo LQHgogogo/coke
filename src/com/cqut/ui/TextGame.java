@@ -2,6 +2,7 @@ package com.cqut.ui;
 
 import com.cqut.domain.Enemy;
 import com.cqut.domain.Hero;
+import com.cqut.util.InputValidator;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -132,15 +133,7 @@ public class TextGame {
                 System.out.println("\n============================");
                 System.out.println("请选择是否继续游戏(Y/N)");
                 Scanner sc = new Scanner(System.in);
-                String choice = "";
-                while (true) {
-                    choice = sc.nextLine().trim().toUpperCase();
-                    if (choice.equals("Y") || choice.equals("N")) {
-                        break;
-                    } else {
-                        System.out.println("无效输入，请输入 Y 或 N：");
-                    }
-                }
+                String choice = InputValidator.validateYesNo(sc);
                 if (choice.equals("N")) {
                     System.out.println("\n============================");
                     System.out.println("感谢游戏！你总共击败了 " + win + " 个敌人");
@@ -194,19 +187,8 @@ public class TextGame {
 
         for (int i=0;i<attributes.length;i++){
             System.out.println("分配点数到"+attributes[i]+"（剩余点数："+point+"）：");
-            int input = sc.nextInt();
-            if (input<0){
-                System.out.println("无效输入，默认分配点数0");
-                input = 0;
-            }
-
-            if (input>point){
-                System.out.println("属性点不足，剩余点数全部分配到"+attributes[i]);
-                input = point;
-            }
-
+            int input = InputValidator.validateAttributePoint(sc, point);
             point -= input;
-
             values[i] = input;
         }
 
@@ -227,27 +209,7 @@ public class TextGame {
             System.out.println((i+1)+"."+player.getSkillList().get(i)+" ");
         }
         Scanner sc = new Scanner(System.in);
-        int input = -1;
-        while (true)
-        {
-            if (sc.hasNextInt())
-            {
-                input = sc.nextInt() - 1;
-                if (input >= 0 && input < player.getSkillList().size())
-                {
-                    break;
-                }
-                else
-                {
-                    System.out.println("无效输入，请输入 1-" + player.getSkillList().size() + " 之间的数字：");
-                }
-            }
-            else
-            {
-                System.out.println("无效输入，请输入数字：");
-                sc.next();
-            }
-        }
+        int input = InputValidator.validateSkillChoice(sc, player.getSkillList().size());
 
         switch ( input){
             case 0:
