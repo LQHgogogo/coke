@@ -69,7 +69,7 @@ public class login {
             }
             if (password.equals(rightPassword)){
                 System.out.println("用户"+u.getUsername()+"登录成功！游戏启动");
-                TextGame tg=new TextGame();
+                Game tg=new Game();
                 tg.start(username);
                 break;
             }else {

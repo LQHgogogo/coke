@@ -222,20 +222,28 @@ public class TextGame {
     public static void playerTurn(Hero player, Enemy enemy,int wins){
         System.out.println("===你的回合===");
         System.out.println("请选择技能：");
-        for (int i=0;i<player.getSkillList().size();i++){
+        for (int i=0;i<player.getSkillList().size();i++)
+        {
             System.out.println((i+1)+"."+player.getSkillList().get(i)+" ");
         }
         Scanner sc = new Scanner(System.in);
         int input = -1;
-        while (true) {
-            if (sc.hasNextInt()) {
+        while (true)
+        {
+            if (sc.hasNextInt())
+            {
                 input = sc.nextInt() - 1;
-                if (input >= 0 && input < player.getSkillList().size()) {
+                if (input >= 0 && input < player.getSkillList().size())
+                {
                     break;
-                } else {
+                }
+                else
+                {
                     System.out.println("无效输入，请输入 1-" + player.getSkillList().size() + " 之间的数字：");
                 }
-            } else {
+            }
+            else
+            {
                 System.out.println("无效输入，请输入数字：");
                 sc.next();
             }

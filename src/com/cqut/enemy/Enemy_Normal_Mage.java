@@ -6,7 +6,12 @@ public class Enemy_Normal_Mage extends Enemy
 {
     public Enemy_Normal_Mage(int lv)
     {
-        Enemy one = new Enemy("神秘法师",70 + (lv -1) * 10,25 + (lv - 1) * 5,8 + (lv - 1),"咒术——火");
         setLv(lv);
+        setName("神秘法师");
+        setMaxHP(70 + (lv -1) * 10);
+        setHP(getMaxHP());
+        setAttack(25 + (lv - 1) * 5);
+        setDefense(8 + (lv - 1));
+        setSkill("咒术——火");
     }
 }
