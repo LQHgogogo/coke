@@ -6,6 +6,7 @@ import com.cqut.enemy.Enemy_Normal_Assassin;
 import com.cqut.enemy.Enemy_Normal_Mage;
 import com.cqut.enemy.Enemy_Normal_Soldier;
 import com.cqut.enemy.Enemy_Normal_Tank;
+import com.cqut.thing.Drug_normalMedicine;
 
 public class WarehouseRoom extends Room
 {
@@ -37,9 +38,24 @@ public class WarehouseRoom extends Room
         this.name = name;
     }
 
-    public void seek(Hero player)
+    public void seek(Hero player, int level)
     {
-        //添加搜索逻辑
+        System.out.println("发现物品：");                                 //简单的物品搜查逻辑
+        if (level <= 3)
+        {
+            System.out.println("1.急救包");
+            player.addBagItem(new Drug_normalMedicine(), 1);
+        }
+        else if (level <= 7)
+        {
+            System.out.println("1.急救包*2");
+            player.addBagItem(new Drug_normalMedicine(), 2);
+        }
+        else
+        {
+            System.out.println("1.急救包*3");
+            player.addBagItem(new Drug_normalMedicine(), 3);
+        }
         this.finishRoom();
     }
 

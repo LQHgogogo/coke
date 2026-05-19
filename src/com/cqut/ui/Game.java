@@ -1,7 +1,8 @@
 package com.cqut.ui;
 
 import com.cqut.domain.*;
-import com.cqut.map.Floor;
+import com.cqut.map.*;
+import com.cqut.thing.*;
 import com.cqut.util.InputValidator;
 
 import java.util.Scanner;
@@ -20,6 +21,8 @@ public class Game                                   // 框架编写完成，已�
         System.out.println("角色创建成功");
         System.out.println("角色初始属性："+player.showStatus());
         System.out.println("拥有的技能： "+player.showSkill());
+        player.addBagItem(new Weapon_ironSword(),1);
+        player.showBag();
 
         Floor[] level = new Floor[9];                    //创建层数
         for (int i = 0; i < level.length; i++)
@@ -46,7 +49,8 @@ public class Game                                   // 框架编写完成，已�
                 {
                     System.out.println("3.前往下一层");
                 }
-                int choice = InputValidator.validateMenuChoice(input, 1, 3);
+                System.out.println("4.装备与背包管理");
+                int choice = InputValidator.validateMenuChoice(input, 1, 4);
                 switch (choice)
                 {
                     case 1:
@@ -77,6 +81,10 @@ public class Game                                   // 框架编写完成，已�
                         {
                             System.out.println("该楼层不可用");
                         }
+                        break;
+                    case 4:
+                        BagSpace bagSpace = new BagSpace(player);
+                        bagSpace.intoBagSpace(player);
                         break;
                     default:
                         System.out.println("输入无效");

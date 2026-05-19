@@ -1,20 +1,27 @@
 package com.cqut.domain;
 
+import com.cqut.thing.*;
+
 import java.util.ArrayList;
 
-public class Hero extends  Character{
+public class Hero extends  Character
+{
     private ArrayList<String> skillList;
-    private ArrayList<BagItem> bag;
+    private ArrayList<BagItem> bag = new ArrayList<BagItem>();
     private int Lv;
     private int Exp;
+    private BagItem weapon = null;
+    private BagItem armor = null;
 
-    public Hero() {
+    public Hero()
+    {
         super();
         skillList = new ArrayList<String>();
         bag = new ArrayList<BagItem>();
     }
 
-    public Hero(String name,int HP,int attack,int defense){
+    public Hero(String name,int HP,int attack,int defense)
+    {
         super(name,HP,attack,defense);
         skillList = new ArrayList<String>();
         Lv = 1;
@@ -28,7 +35,8 @@ public class Hero extends  Character{
         skillList.add(skill);
     }
 
-    public String showSkill(){
+    public String showSkill()
+    {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < skillList.size(); i++)
         {
@@ -78,35 +86,134 @@ public class Hero extends  Character{
         }
     }
 
-    public ArrayList<String> getSkillList() {
+    public ArrayList<String> getSkillList()
+    {
         return skillList;
     }
 
-    public void setSkillList(ArrayList<String> skillList) {
+    public void setSkillList(ArrayList<String> skillList)
+    {
         this.skillList = skillList;
     }
 
-    public ArrayList<BagItem> getBag() {
-        return bag;
-    }
-
-    public void setBag(ArrayList<BagItem> bag) {
-        this.bag = bag;
-    }
-
-    public int getLv() {
+    public int getLv()
+    {
         return Lv;
     }
 
-    public void setLv(int Lv) {
+    public void setLv(int Lv)
+    {
         this.Lv = Lv;
     }
 
-    public int getExp() {
+    public int getExp()
+    {
         return Exp;
     }
 
-    public void setExp(int Exp) {
+    public void setExp(int Exp)
+    {
         this.Exp = Exp;
+    }
+
+    public void addBagItem(BagItem bagItem, int num)                  //背包增加物品
+    {
+        if (bag == null)
+        {
+            bag.add(bagItem);
+            bagItem.AddNum(num);
+        }
+        else if (!isBagHava(bagItem))
+        {
+            bag.add(bagItem);
+            bagItem.AddNum(num);
+        }
+        else
+        {
+            bag.get(getBagSame(bagItem)).AddNum(num);
+        }
+    }
+
+    public void removeBagItem(BagItem thing,  int num)                //背包删减物品
+    {
+        boolean isNull = !thing.RemoveNum(num);
+        if (isNull)
+        {
+            bag.remove(thing);
+        }
+    }
+
+    public void showBag()                               //显示背包
+    {
+        if (bag == null || bag.size() == 0)
+        {
+            System.out.println("背包内空空如也");;
+        }
+        else
+        {
+            System.out.println("背包内物品：");
+            for (int i = 0; i < bag.size(); i++)
+            {
+                System.out.println((i+1) + "." + bag.get(i));
+            }
+        }
+    }
+
+    public boolean isBagHava(BagItem bagItem)              //判断背包内是否有id相同的物品
+    {
+        boolean have = false;
+        for (int i = 0; i < bag.size(); i++)
+        {
+            BagItem value = bag.get(i);
+            if (value.getId() ==  bagItem.getId())
+            {
+                have = true;
+            }
+        }
+        return have;
+    }
+
+    public int getBagSame(BagItem bagItem)                 //用于获取背包内相同id物品的下标
+    {
+        int same = -1;
+        for (int i = 0; i < bag.size(); i++)
+        {
+            BagItem value = bag.get(i);
+            if (value.getId() == bagItem.getId())
+            {
+                same = i;
+            }
+        }
+        return same;
+    }
+
+    public int getBagLength()                                 //方法返回背包长度
+    {
+        return bag.size();
+    }
+
+    public BagItem getBagItem(int index)                //通过下标返回背包内物品
+    {
+        return bag.get(index);
+    }
+
+    public void setWeapon(BagItem bagItem)       //添加武器
+    {
+        this.weapon = bagItem;
+    }
+
+    public void  setArmor(BagItem bagItem)           //添加装备
+    {
+        this.armor = bagItem;
+    }
+
+    public BagItem getWeapon()                     //返回武器状态
+    {
+        return weapon;
+    }
+
+    public BagItem getArmor()                         //返回装备状态
+    {
+        return armor;
     }
 }

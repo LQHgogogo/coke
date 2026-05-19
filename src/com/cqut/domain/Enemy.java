@@ -17,11 +17,15 @@ public class Enemy extends  Character{
     }
 
     @Override
-    public void takeDamage(int damage) {
-        if(defending){
+    public void takeDamage(int damage)
+    {
+        if(defending)
+        {
             super.takeDamage(damage/2);
             defending=false;
-        }else{
+        }
+        else
+        {
             super.takeDamage(damage);
         }
     }

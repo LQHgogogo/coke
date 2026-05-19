@@ -265,4 +265,52 @@ public class InputValidator
 
         return false;
     }
+
+    public static int validateBagSpace(Scanner sc, int bagCount)
+    {
+        while (true)
+        {
+            if (sc.hasNextInt())
+            {
+                int input = sc.nextInt();
+                if (input >= 0 && input <= bagCount)
+                {
+                    return input;
+                }
+                else
+                {
+                    System.out.println("无效选择，请输入 0-" + bagCount + " 之间的数字：");
+                }
+            }
+            else
+            {
+                System.out.println("请输入数字：");
+                sc.next();
+            }
+        }
+    }
+
+    public static int validateBagSpace_non_zero(Scanner sc, int bagCount)
+    {
+        while (true)
+        {
+            if (sc.hasNextInt())
+            {
+                int input = sc.nextInt();
+                if (input >= 1 && input <= bagCount)
+                {
+                    return input;
+                }
+                else
+                {
+                    System.out.println("无效选择，请输入 1-" + bagCount + " 之间的数字：");
+                }
+            }
+            else
+            {
+                System.out.println("请输入数字：");
+                sc.next();
+            }
+        }
+    }
 }

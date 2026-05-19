@@ -2,6 +2,7 @@ package com.cqut.map;
 
 import com.cqut.domain.Hero;
 import com.cqut.util.InputValidator;
+import com.cqut.thing.*;
 
 import java.util.Scanner;
 
@@ -47,7 +48,7 @@ public class Floor
 
     public void choose(Hero player)                     //循环选择当前操作
     {
-
+        BagSpace bagSpace = new BagSpace(player);
         boolean action = true;
         while (action)
         {
@@ -57,15 +58,16 @@ public class Floor
             System.out.println("2.寻找一个储物间");
             System.out.println("3.前往故事地点");
             System.out.println("4.离开");
+            System.out.println("5.装备与背包管理");
 
-            int choice = InputValidator.validateMenuChoice(input, 1, 4);
+            int choice = InputValidator.validateMenuChoice(input, 1, 5);
             switch (choice)
             {
                 case 1:
-                    intoFightRoom(player);
+                    intoFightRoom(player, level);
                     break;
                 case 2:
-                    intowarehouseRoom(player);
+                    intowarehouseRoom(player, level);
                     break;
                 case 3:
                     if (canRead())
@@ -81,6 +83,9 @@ public class Floor
                 case 4:
                     action = false;
                     break;
+                case 5:
+                    bagSpace.intoBagSpace(player);
+                    break;
                 default:
                     System.out.println("请正确输入");
                     break;
@@ -93,7 +98,7 @@ public class Floor
         }
     }
 
-    public void intoFightRoom(Hero player)             //转为在战场进行操作
+    public void intoFightRoom(Hero player, int level)             //转为在战场进行操作
     {
         System.out.println("\n");
         System.out.println("选择你要进入的战场:（当前楼层共有" + fightRoom.length + "个战场）（选0返回）");
@@ -128,7 +133,7 @@ public class Floor
         }
     }
 
-    public void intowarehouseRoom(Hero player)                  //转为在储物间进行操作
+    public void intowarehouseRoom(Hero player, int level)                  //转为在储物间进行操作
     {
         System.out.println("\n");
         System.out.println("选择你要进入的储物间:（当前楼层共有" + warehouseRoom.length + "个储物间）（选0返回）");
@@ -167,7 +172,7 @@ public class Floor
                 String choice1 = InputValidator.validateYesNo(input);
                 if (choice1.equals("Y"))
                 {
-                    warehouseRoom[choice - 1].seek(player);
+                    warehouseRoom[choice - 1].seek(player, level);
                 }
                 warehouseRoom[choice - 1].leaveRoom();
             }

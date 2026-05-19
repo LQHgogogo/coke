@@ -6,12 +6,7 @@ public class Enemy_Normal_Soldier extends Enemy
 {
     public Enemy_Normal_Soldier(int lv)
     {
+        super("初级士兵", 80 + (lv - 1) * 10, 15 + (lv - 1) * 3, 10 + (lv - 1) * 2, "力拔山兮");
         setLv(lv);
-        setName("初级士兵");
-        setMaxHP(80 + (lv - 1) * 10);
-        setHP(getMaxHP());
-        setAttack(15 + (lv - 1) * 3);
-        setDefense(10 + (lv - 1) * 2);
-        setSkill("力拔山兮");
     }
 }
