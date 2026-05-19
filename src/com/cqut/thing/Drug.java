@@ -18,5 +18,4 @@ public class Drug extends BagItem                  //所有治疗药品继承此
     {
         this.drugEfficacy = num;
     }
-
 }
