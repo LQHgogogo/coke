@@ -38,4 +38,11 @@ public class BagItem {
             return true;
         }
     }
+
+    public static class Item {
+        public int id;
+        public String name;
+        public int description;
+        public int maxCount;
+    }
 }
