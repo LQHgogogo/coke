@@ -7,6 +7,7 @@ public class Hero extends  Character{
     public ArrayList<BagItem> bag;
     public int Lv;
     public int Exp;
+    public BagItem equippedWeapon;
 
     public Hero() {
         super();
@@ -14,6 +15,7 @@ public class Hero extends  Character{
         bag = new ArrayList<BagItem>();
         Lv = 1;
         Exp = 0;
+        equippedWeapon = null;
     }
 
     public Hero(String name,int HP,int attack,int defense){
@@ -22,6 +24,7 @@ public class Hero extends  Character{
         bag = new ArrayList<BagItem>();
         Lv = 1;
         Exp = 0;
+        equippedWeapon = null;
     }
 
     public void addSkill(String skill){
@@ -37,5 +40,17 @@ public class Hero extends  Character{
             }
         }
         return sb.toString();
+    }
+
+    public void showStatusWithEquipment(){
+        System.out.println("角色状态：" + name);
+        System.out.println("【血量：" + HP + "/" + maxHP + " 攻击：" + attack + " 防御：" + defense + "】");
+        System.out.println("等级：" + Lv + " 经验：" + Exp);
+        if (equippedWeapon != null) {
+            System.out.println("装备武器：" + equippedWeapon.item.name + " (" + equippedWeapon.item.description + ")");
+        } else {
+            System.out.println("装备武器：无");
+        }
+        System.out.println("技能：" + showSkill());
     }
 }

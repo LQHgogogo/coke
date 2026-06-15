@@ -19,7 +19,7 @@ public class Floor {
         rooms = new Room[10]; // 初始化房间数�?
         Random random = new Random();
         
-        // 房间类型定义�?=战斗, 2=奖励, 3=boss, 4=剧情, 5=普�?
+        // 房间类型定义1=战斗, 2=奖励, 3=boss, 4=剧情, 5=普�?
         int[] roomTypes = new int[10];
         
         // boss房间

@@ -26,7 +26,6 @@ public class BagItem {
         }
     }
 
-    // 删除物品未完善，根据后续需求修改
     public boolean RemoveNum(int num){
         if (count - num < 0){
             count = 0;
@@ -42,7 +41,45 @@ public class BagItem {
     public static class Item {
         public int id;
         public String name;
-        public int description;
+        public String description;
         public int maxCount;
+        public ItemType type;
+        public int value;
+
+        public Item() {
+            this.type = ItemType.CONSUMABLE;
+            this.value = 0;
+        }
+
+        public Item(int id, String name, String description, ItemType type, int value, int maxCount) {
+            this.id = id;
+            this.name = name;
+            this.description = description;
+            this.type = type;
+            this.value = value;
+            this.maxCount = maxCount;
+        }
+
+        public String showInfo() {
+            return String.format("[%s] %s - %s (数量: %d)",
+                type.getDescription(), name, description, maxCount);
+        }
+    }
+
+    public enum ItemType {
+        WEAPON("武器"),
+        CONSUMABLE("消耗品"),
+        ARMOR("防具"),
+        ACCESSORY("饰品");
+
+        private final String description;
+
+        ItemType(String description) {
+            this.description = description;
+        }
+
+        public String getDescription() {
+            return description;
+        }
     }
 }

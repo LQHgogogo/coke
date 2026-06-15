@@ -2,6 +2,8 @@ package com.cqut.ui;
 
 import com.cqut.domain.Enemy;
 import com.cqut.domain.Hero;
+import com.cqut.domain.ItemSystem;
+import com.cqut.domain.ItemSystem;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -40,16 +42,20 @@ public class TextGame {
             }
 
             //此板块写战前装备逻辑
-
-
-
-
-
-
-
-
-
-
+            System.out.println("请选择行动：");
+            System.out.println("1. 进入战斗");
+            System.out.println("2. 查看物品");
+            Scanner actionSc = new Scanner(System.in);
+            String actionChoice = actionSc.nextLine().trim();
+            if (actionChoice.equals("2")) {
+                ItemSystem.showInventory(player);
+                System.out.println("请输入要使用的物品编号（输入0返回）：");
+                int itemChoice = actionSc.nextInt();
+                if (itemChoice > 0) {
+                    ItemSystem.useItem(player, itemChoice - 1);
+                }
+                continue;
+            }
 
             Random r=new Random();
             int index = r.nextInt(enemies.size());
@@ -75,33 +81,10 @@ public class TextGame {
 
 
                     //此板块为装备掉落逻辑
-                    int rnum=0;
-                    rnum=r.nextInt(10)+1;
-                    if (rnum>=8-win*0.5){
-                        System.out.println("敌人掉落了物品");
-                        //player.bag.add(BagItem);
-                    }else {
-                        System.out.println("没有任何物品掉落");
-                    }
+                    dropRandomItem(player, r);
 
                     break;
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                 enemyTurn(enemy,player);
 
@@ -338,5 +321,20 @@ public class TextGame {
             Demage=1;
         }
         return Demage;
+    }
+
+    private void dropRandomItem(Hero player, Random r) {
+        int itemType = r.nextInt(10);
+        if (itemType < 3) {
+            int[] potionIds = {2001, 2002, 2003};
+            int potionId = potionIds[r.nextInt(potionIds.length)];
+            ItemSystem.addItemToBag(player, potionId, 1);
+        } else if (itemType < 5) {
+            int[] weaponIds = {1001, 1002};
+            int weaponId = weaponIds[r.nextInt(weaponIds.length)];
+            ItemSystem.addItemToBag(player, weaponId, 1);
+        } else {
+            System.out.println("获得了金币（暂未实现）");
+        }
     }
 }
