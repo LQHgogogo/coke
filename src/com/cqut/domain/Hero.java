@@ -12,11 +12,16 @@ public class Hero extends  Character{
         super();
         skillList = new ArrayList<String>();
         bag = new ArrayList<BagItem>();
+        Lv = 1;
+        Exp = 0;
     }
 
     public Hero(String name,int HP,int attack,int defense){
         super(name,HP,attack,defense);
         skillList = new ArrayList<String>();
+        bag = new ArrayList<BagItem>();
+        Lv = 1;
+        Exp = 0;
     }
 
     public void addSkill(String skill){

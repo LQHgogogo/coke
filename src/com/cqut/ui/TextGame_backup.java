@@ -1,7 +1,9 @@
-package com.cqut.ui;
+﻿package com.cqut.ui;
 
 import com.cqut.domain.Enemy;
+import com.cqut.domain.Floor;
 import com.cqut.domain.Hero;
+import com.cqut.domain.User;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -9,7 +11,8 @@ import java.util.Scanner;
 
 public class TextGame_backup {
 
-    public void start(String  username) {
+    public void start(User user) {
+        String username = user.getUsername();
         System.out.println("============================");
         System.out.println("     "+username+"欢迎来到文字格斗游戏     ");
         System.out.println("============================");
@@ -28,146 +31,72 @@ public class TextGame_backup {
         int count = 1;
         int win = 0;
 
-        while (player.isAlive()){
-            if (win!=0){
-                for (int i=0;i<enemies.size();i++){
-                    Enemy enemy = enemies.get(i);
-                    enemy.maxHP=enemy.maxHP+10;
-                    enemy.HP=enemy.maxHP;
-                    enemy.attack=enemy.attack+3;
-                    enemy.defense=enemy.defense+2;
-                }
-            }
+        while (true){
+            Scanner sc = new Scanner(System.in);
 
+            Floor floor = new Floor(count);
+            int roomCount = floor.getSpareRoomCount();
+            while (true){
+                System.out.println("请选择操作：1.开始探索本层");
+                System.out.println("          2.退出并存档");
+                
+                int input = getValidInput(sc, 1, 2);
+                
+                switch (input){
+                    case 1:
+                        System.out.println("当前层数："+ count);
+                        while(true){
+                            floor.showRoomStatus();
 
-            //此板块写战前装备逻辑
+                            boolean allExplored = true;
+                            for (int i = 0; i < floor.getRooms().length; i++){
+                                if (floor.getRooms()[i].getTypeNum() != 5 && !floor.getRooms()[i].isFinished()){
+                                    allExplored = false;
+                                    break;
+                                }
+                            }
 
+                            if (allExplored){
+                                System.out.println("本层所有房间已探索完成，自动进入下一层！");
+                                count++;
+                                break;
+                            }
 
+                            if (floor.isClear()){
+                                System.out.println("BOSS已击败！你可以：");
+                                System.out.println("1.进入下一层");
+                                System.out.println("2.继续探索本层");
+                                int choice = getValidInput(sc, 1, 2);
+                                if (choice == 1){
+                                    count++;
+                                    break;
+                                }
+                            }
 
+                            System.out.println("请选择房间(-1退出本层探索)：");
+                            int roomChoice = sc.nextInt();
+                            if (roomChoice == -1){
+                                System.out.println("退出本层探索");
+                                break;
+                            }
 
+                            if (roomChoice < 1 || roomChoice > roomCount){
+                                System.out.println("无效房间号，请输入 1-" + roomCount + " 之间的数字：");
+                                roomChoice = getValidInput(sc, 1, roomCount);
+                            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-            Random r=new Random();
-            int index = r.nextInt(enemies.size());
-            Enemy enemy = enemies.get(index);
-            System.out.println(enemy.showStatus());
-
-            System.out.println("-----------------------------");
-            System.out.println("第"+count+"局对战开始!对手:"+enemy.name);
-
-            int round=1;
-            while (player.isAlive()){
-                System.out.println("-----------------------------");
-                System.out.println("第"+round+"轮对战开始!");
-                System.out.println(getBlood(player.name,player.HP,player.maxHP));
-                System.out.println(getBlood(enemy.name,enemy.HP,enemy.maxHP));
-
-                //开始战斗
-                playerTurn(player, enemy,win);
-
-                if (!enemy.isAlive()){
-                    System.out.println("你成功击败了"+enemy.name+"!");
-                    win++;
-
-
-                    //此板块为装备掉落逻辑
-                    int rnum=0;
-                    rnum=r.nextInt(10)+1;
-                    if (rnum>=8-win*0.5){
-                        System.out.println("敌人掉落了物品");
-                        //player.bag.add(BagItem);
-                    }else {
-                        System.out.println("没有任何物品掉落");
-                    }
-
-                    break;
-                }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                enemyTurn(enemy,player);
-
-                if (!player.isAlive()){
-                    System.out.println("你被"+enemy.name+"击败了！");
-                    break;
-                }
-
-                round++;
-            }
-            if(!player.isAlive()){
-                System.out.println("\n============================");
-                System.out.println("游戏结束！你总共击败了 " + win + " 个敌人");
-                System.out.println("============================");
-                break;
-            }else{
-                if (win>0&&win%3==0){
-                    System.out.println("恭喜你属性获得提升");
-                    player.maxHP=player.maxHP+30+win;
-                    player.attack+=5;
-                    player.defense+=3;
-                }
-                int healHP = r.nextInt(21)+20+win*2;
-                player.heal(healHP);
-                System.out.println("本场战斗结束，你已恢复"+healHP+"点生命值");
-                System.out.println("当前胜场："+ win);
-
-                System.out.println("\n============================");
-                System.out.println("请选择是否继续游戏(Y/N)");
-                Scanner sc = new Scanner(System.in);
-                String choice = "";
-                while (true) {
-                    choice = sc.nextLine().trim().toUpperCase();
-                    if (choice.equals("Y") || choice.equals("N")) {
+                            floor.getRooms()[roomChoice - 1].Trigger(floor);
+                        }
                         break;
-                    } else {
-                        System.out.println("无效输入，请输入 Y 或 N：");
-                    }
+                    case 2:
+                        System.out.println("游戏结束，已保存进度");
+                        return;
+                    default:
+                        System.out.println("无效输入");
+                        break;
                 }
-                if (choice.equals("N")) {
-                    System.out.println("\n============================");
-                    System.out.println("感谢游戏！你总共击败了 " + win + " 个敌人");
-                    System.out.println("最终角色属性：" + player.showStatus());
-                    System.out.println("============================");
-                    break;
-                }
-                count++;
             }
-
         }
-
-        System.out.println("\n============================");
-        System.out.println("游戏结束！总胜场： " + win);
-        System.out.println("感谢您的游玩");
-        System.out.println("============================");
-        System.exit(0);
     }
 
     public String getBlood(String  name,int HP,int maxHP){
@@ -349,4 +278,23 @@ public class TextGame_backup {
         }
         return Demage;
     }
+
+    public static int getValidInput(Scanner sc, int min, int max) {
+        while (true) {
+            if (sc.hasNextInt()) {
+                int input = sc.nextInt();
+                if (input >= min && input <= max) {
+                    return input;
+                } else {
+                    System.out.println("无效输入，请输入 " + min + " 到 " + max + " 之间的数字：");
+                }
+            } else {
+                System.out.println("无效输入，请输入数字：");
+                sc.next(); // 清除非法输入
+            }
+        }
+    }
 }
+
+
+

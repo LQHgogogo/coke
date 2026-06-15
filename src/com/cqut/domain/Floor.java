@@ -16,10 +16,10 @@ public class Floor {
     }
     
     public void setRooms() {
-        rooms = new Room[10]; // 初始化房间数组
+        rooms = new Room[10]; // 初始化房间数�?
         Random random = new Random();
         
-        // 房间类型定义：1=战斗, 2=奖励, 3=boss, 4=剧情, 5=普通
+        // 房间类型定义�?=战斗, 2=奖励, 3=boss, 4=剧情, 5=普�?
         int[] roomTypes = new int[10];
         
         // boss房间
@@ -33,8 +33,8 @@ public class Floor {
         } while (storyIndex == bossIndex);
         roomTypes[storyIndex] = 4;
         
-        // 战斗房间，随机生成1-3个战斗房间
-        int battleCount = random.nextInt(3) + 1; // 1-3个战斗房间
+        // 战斗房间，随机生�?-3个战斗房�?
+        int battleCount = random.nextInt(3) + 1; // 1-3个战斗房�?
         int placedBattle = 0;
         while (placedBattle < battleCount) {
             int index = random.nextInt(10);
@@ -44,7 +44,7 @@ public class Floor {
             }
         }
         
-        // 4. 奖励房间(类型2)至多3个，随机生成0-3个
+        // 4. 奖励房间(类型2)至多3个，随机生成0-3�?
         int rewardCount = random.nextInt(4);
         int placedReward = 0;
         while (placedReward < rewardCount) {
@@ -55,7 +55,7 @@ public class Floor {
             }
         }
         
-        // 5. 剩余房间填为空房间
+        // 5. 剩余房间填为空房�?
         for (int i = 0; i < 10; i++) {
             if (roomTypes[i] == 0) {
                 roomTypes[i] = 5;
@@ -68,9 +68,30 @@ public class Floor {
         
         // 7. 随机打乱房间顺序
         shuffleRooms(random);
+
+        for (int i = 0; i < rooms.length; i++) {
+            if (rooms[i].getTypeNum() == 5) {
+                int lastIndex = getLastNoneSpareRoom(rooms);
+                if (lastIndex > i) {
+                    Room temp = rooms[i];
+                    rooms[i] = rooms[lastIndex];
+                    rooms[lastIndex] = temp;
+                }
+            }
+        }
+
         if (floorNum%2==0){
             storeRoom=new Room(6);
         }
+    }
+
+    public static int getLastNoneSpareRoom(Room[] rooms){
+        for (int i = rooms.length - 1; i >= 0; i--) {
+            if (rooms[i].getTypeNum() != 5){
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void shuffleRooms(Random random) {
@@ -80,6 +101,35 @@ public class Floor {
             rooms[i] = rooms[j];
             rooms[j] = temp;
         }
+    }
+
+    public void showRoomStatus(){
+        if (rooms == null) {
+            System.out.println("房间尚未初始化");
+            return;
+        }
+        
+        int count = 1;
+        for (int i = 0; i < rooms.length; i++){
+            if (rooms[i].getTypeNum() != 5){
+                if (rooms[i].isFinished() == true){
+                    System.out.println("第" + floorNum + "层第" + count + "个房间：已探索");
+                }else{
+                    System.out.println("第" + floorNum + "层第" + count + "个房间：未探索");
+                }
+                count++;
+            }
+        }
+    }
+
+    public int getSpareRoomCount(){
+        int count=0;
+        for (int i = 0; i < rooms.length; i++){
+            if (rooms[i].getTypeNum() != 5){
+                count++;
+            }
+        }
+        return count;
     }
 
     public Room[] getRooms() {
@@ -118,7 +168,7 @@ public class Floor {
             isFinished = false;
         }
         
-        //触发房间探索交互功能，1为战斗房间，2为奖励房间，3为剧情房间，4为楼层boss房，5为空房间,6为商店房间
+        //触发房间探索交互功能�?为战斗房间，2为奖励房间，3为剧情房间，4为楼层boss房，5为空房间,6为商店房�?
         public void Trigger(Floor floor)
         {
             if (TypeNUm==1){
@@ -140,6 +190,22 @@ public class Floor {
         public void SetTypeNUm(int TypeNUm)
         {
             this.TypeNUm = TypeNUm;
+        }
+        
+        public int getTypeNum() {
+            return TypeNUm;
+        }
+        
+        public void setTypeNum(int typeNum) {
+            this.TypeNUm = typeNum;
+        }
+        
+        public boolean isFinished() {
+            return isFinished;
+        }
+        
+        public void setFinished(boolean finished) {
+            this.isFinished = finished;
         }
     }
 }
