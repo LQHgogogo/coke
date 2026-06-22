@@ -11,7 +11,7 @@ public class login {
         System.out.println("打开了登录注册页面");
 
         ArrayList<User> list = new ArrayList<User>();
-        list = FileManager.loadUser("user.json");
+        list = FileManager.loadUser("D:/code/IDEA_PRE/First_Project/userdata.json");
 
         while (true) {
             System.out.println("============================");

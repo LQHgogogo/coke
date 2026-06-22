@@ -13,10 +13,28 @@ public class TextGame {
         System.out.println("     "+username+"欢迎来到文字格斗游戏     ");
         System.out.println("============================");
 
-        Hero player = creatCharacter(username);
-        user.setHero(player);
-        System.out.println("角色创建成功");
-        System.out.println("角色初始属性："+player.showStatus());
+        Hero player = null;
+        Floor head = null;
+        int count;
+        if (user.getHero() == null) {
+            // 首次登录 → 创建角色、初始化第1层
+            player = creatCharacter(username);
+            user.setHero(player);
+            head = new Floor(1);
+            player.headFloor = head;
+            player.currentFloor = head;
+            player.currentFloorNum = 1;
+            System.out.println("角色创建成功");
+            count = 1;
+        } else {
+            // 已有存档 → 直接读取角色数据、恢复楼层
+            player = user.getHero();
+            head = player.headFloor;  // 从之前保存的楼层继续
+            System.out.println("角色加载成功");
+            count = player.currentFloorNum;
+        }
+
+        System.out.println("角色属性："+player.showStatus());
         System.out.println("拥有的技能： "+player.showSkill());
 
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
@@ -25,9 +43,7 @@ public class TextGame {
         enemies.add(new Enemy("重装坦克",120,10,20,"举盾防御"));
         enemies.add(new Enemy("神秘法师",70,25,8,"咒术——火"));
 
-        int count = 1;
         Scanner sc = new Scanner(System.in);
-        Floor head = new Floor(count);
         Floor current = head;
 
         while (true){
@@ -39,6 +55,8 @@ public class TextGame {
                 }
                 current = current.getNextFloor();
             }
+            player.currentFloor = current;
+            player.currentFloorNum = count;
 
             int roomCount = current.getSpareRoomCount();
             while (true){
@@ -50,6 +68,7 @@ public class TextGame {
                 
                 switch (input){
                     case 1:
+                        player.currentFloor=current;
                         System.out.println("当前层数："+ count);
                         while(true){
                             current.showRoomStatus();

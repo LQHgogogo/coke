@@ -7,7 +7,9 @@ public class Hero extends  Character{
     public ArrayList<BagItem> bag;
     public int Lv;
     public int Exp;
-    public Floor floor;
+    public Floor headFloor;
+    public transient Floor currentFloor;
+    public int currentFloorNum;
 
     public Hero() {
         super();

@@ -19,6 +19,10 @@ public class FileManager {
     }
 
     public static ArrayList<User> loadUser(String filePath) {
+        File file = new File(filePath);
+        if (!file.exists()) {
+            return new ArrayList<>();
+        }
         try (FileReader fr = new FileReader(filePath)) {
             return gson.fromJson(fr, new TypeToken<ArrayList<User>>(){}.getType());
         } catch (IOException e) {
