@@ -1,5 +1,6 @@
 package com.cqut.ui;
 
+import com.cqut.domain.FileManager;
 import com.cqut.domain.User;
 import java.util.ArrayList;
 import java.util.Random;
@@ -10,6 +11,7 @@ public class login {
         System.out.println("打开了登录注册页面");
 
         ArrayList<User> list = new ArrayList<User>();
+        list = FileManager.loadUser("user.json");
 
         while (true) {
             System.out.println("============================");
@@ -70,7 +72,7 @@ public class login {
             if (password.equals(rightPassword)){
                 System.out.println("用户"+u.getUsername()+"登录成功！游戏启动");
                 TextGame tg=new TextGame();
-                tg.start(username);
+                tg.start(list,u);
                 break;
             }else {
                 System.out.println("用户"+u.getUsername()+"登录失败");

@@ -15,7 +15,8 @@ public class User {
     }
 
     public User(String username, String password) {
-        id=createId();
+        this.Hero=null;
+        this.id=createId();
         this.username = username;
         this.password = password;
         status= true;
