@@ -18,6 +18,7 @@ public class TextGame_backup {
         System.out.println("============================");
 
         Hero player = creatCharacter(username);
+        user.setHero(player);
         System.out.println("角色创建成功");
         System.out.println("角色初始属性："+player.showStatus());
         System.out.println("拥有的技能： "+player.showSkill());
@@ -29,28 +30,37 @@ public class TextGame_backup {
         enemies.add(new Enemy("神秘法师",70,25,8,"咒术——火"));
 
         int count = 1;
-        int win = 0;
+        Scanner sc = new Scanner(System.in);
+        Floor head = new Floor(count);
+        Floor current = head;
 
         while (true){
-            Scanner sc = new Scanner(System.in);
 
-            Floor floor = new Floor(count);
-            int roomCount = floor.getSpareRoomCount();
+            current = head;
+            for (int i = 1; i < count; i++) {
+                if (current.getNextFloor() == null) {
+                    current.setNextFloor(new Floor(i + 1));
+                }
+                current = current.getNextFloor();
+            }
+
+            int roomCount = current.getSpareRoomCount();
             while (true){
                 System.out.println("请选择操作：1.开始探索本层");
-                System.out.println("          2.退出并存档");
+                System.out.println("          2.选择楼层");
+                System.out.println("          3.退出并存档");
                 
-                int input = getValidInput(sc, 1, 2);
+                int input = getValidInput(sc, 1, 3);
                 
                 switch (input){
                     case 1:
                         System.out.println("当前层数："+ count);
                         while(true){
-                            floor.showRoomStatus();
+                            current.showRoomStatus();
 
                             boolean allExplored = true;
-                            for (int i = 0; i < floor.getRooms().length; i++){
-                                if (floor.getRooms()[i].getTypeNum() != 5 && !floor.getRooms()[i].isFinished()){
+                            for (int i = 0; i < current.getRooms().length; i++){
+                                if (current.getRooms()[i].getTypeNum() != 5 && !current.getRooms()[i].isFinished()){
                                     allExplored = false;
                                     break;
                                 }
@@ -62,7 +72,7 @@ public class TextGame_backup {
                                 break;
                             }
 
-                            if (floor.isClear()){
+                            if (current.isClear()){
                                 System.out.println("BOSS已击败！你可以：");
                                 System.out.println("1.进入下一层");
                                 System.out.println("2.继续探索本层");
@@ -85,11 +95,24 @@ public class TextGame_backup {
                                 roomChoice = getValidInput(sc, 1, roomCount);
                             }
 
-                            floor.getRooms()[roomChoice - 1].Trigger(floor);
+                            current.getRooms()[roomChoice - 1].Trigger(current);
                         }
                         break;
+
                     case 2:
+                        System.out.println("请选择楼层：");
+                        int floorChoice = sc.nextInt();
+
+                        if (floorChoice < 1 || floorChoice > count){
+                            System.out.println("无效楼层号，请输入 1-" + count + " 之间的数字：");
+                            floorChoice = getValidInput(sc, 1, count);
+                        }
+                        count = floorChoice;
+                        break;
+
+                    case 3:
                         System.out.println("游戏结束，已保存进度");
+                        // 保存进度
                         return;
                     default:
                         System.out.println("无效输入");
@@ -295,6 +318,3 @@ public class TextGame_backup {
         }
     }
 }
-
-
-

@@ -7,6 +7,7 @@ public class User {
     private String username;
     private String password;
     private boolean status;
+    private Hero Hero;
 
     public User() {
         id=createId();
@@ -60,5 +61,13 @@ public class User {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public Hero getHero() {
+        return Hero;
+    }
+
+    public void setHero(Hero hero) {
+        Hero = hero;
     }
 }

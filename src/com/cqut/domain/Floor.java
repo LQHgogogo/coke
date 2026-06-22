@@ -7,19 +7,21 @@ public class Floor {
     private int floorNum;
     private boolean isClear;
     private Room storeRoom;
+    private Floor nextFloor;
 
     public Floor() {}
 
     public Floor(int floorNum) {
         this.floorNum = floorNum;
+        this.nextFloor=null;
         setRooms();
     }
     
     public void setRooms() {
-        rooms = new Room[10]; // 初始化房间数�?
+        rooms = new Room[10]; // 初始化房间数
         Random random = new Random();
         
-        // 房间类型定义�?=战斗, 2=奖励, 3=boss, 4=剧情, 5=普�?
+        // 房间类型定义1=战斗, 2=奖励, 3=boss, 4=剧情, 5=空房间
         int[] roomTypes = new int[10];
         
         // boss房间
@@ -136,12 +138,16 @@ public class Floor {
         return rooms;
     }
 
-    public void setRooms(Room[] rooms) {
-        this.rooms = rooms;
+    public Floor getNextFloor() {
+        return nextFloor;
     }
 
-    public int getFloorNum() {
-        return floorNum;
+    public void setNextFloor(Floor nextFloor) {
+        this.nextFloor = nextFloor;
+    }
+
+    public Room getStoreRoom() {
+        return storeRoom;
     }
 
     public void setFloorNum(int floorNum) {
@@ -155,6 +161,9 @@ public class Floor {
     public void setClear(boolean clear) {
         isClear = clear;
     }
+
+
+    //——————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
     public static class Room {
         private int TypeNUm;
