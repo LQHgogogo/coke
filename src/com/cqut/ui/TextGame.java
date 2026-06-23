@@ -17,7 +17,6 @@ public class TextGame {
         Floor head = null;
         int count;
         if (user.getHero() == null) {
-            // 首次登录 → 创建角色、初始化第1层
             player = creatCharacter(username);
             user.setHero(player);
             head = new Floor(1);
@@ -26,10 +25,12 @@ public class TextGame {
             player.currentFloorNum = 1;
             System.out.println("角色创建成功");
             count = 1;
+            
+            player.addItem(new Item(13, "金币", Item.ItemType.POTION, "游戏货币", 9999, 0, 0, 0, 0), 100);
+            System.out.println("获得初始资金：100G");
         } else {
-            // 已有存档 → 直接读取角色数据、恢复楼层
             player = user.getHero();
-            head = player.headFloor;  // 从之前保存的楼层继续
+            head = player.headFloor;
             System.out.println("角色加载成功");
             count = player.currentFloorNum;
         }
@@ -62,9 +63,11 @@ public class TextGame {
             while (true){
                 System.out.println("请选择操作：1.开始探索本层");
                 System.out.println("          2.选择楼层");
-                System.out.println("          3.退出并存档");
+                System.out.println("          3.查看背包");
+                System.out.println("          4.查看装备");
+                System.out.println("          5.退出并存档");
                 
-                int input = getValidInput(sc, 1, 3);
+                int input = getValidInput(sc, 1, 5);
                 
                 switch (input){
                     case 1:
@@ -124,8 +127,37 @@ public class TextGame {
                         }
                         count = floorChoice;
                         break;
-
+                        
                     case 3:
+                        player.showBag();
+                        System.out.println("是否使用物品？(输入物品ID，或输入0取消)");
+                        int useItemChoice = sc.nextInt();
+                        if (useItemChoice > 0) {
+                            player.usePotion(useItemChoice);
+                        }
+                        break;
+                        
+                    case 4:
+                        player.showEquipment();
+                        System.out.println("是否更换装备？(1.卸下武器 2.卸下防具 3.从背包装备 0.取消)");
+                        int equipChoice = getValidInput(sc, 0, 3);
+                        if (equipChoice == 1) {
+                            player.unequipWeapon();
+                        } else if (equipChoice == 2) {
+                            player.unequipArmor();
+                        } else if (equipChoice == 3) {
+                            System.out.println("选择要装备的物品（输入ID）：");
+                            player.showBag();
+                            int itemId = sc.nextInt();
+                            if (player.hasItem(itemId)) {
+                                player.equipItem(itemId);
+                            } else {
+                                System.out.println("没有该物品！");
+                            }
+                        }
+                        break;
+
+                    case 5:
                         System.out.println("游戏结束，已保存进度");
                         FileManager.saveUser(list,"D:/code/IDEA_PRE/First_Project/userdata.json");
                         return;
@@ -194,6 +226,57 @@ public class TextGame {
 
         return  player;
     }
+
+    public void battle(Hero player, Enemy enemy, int wins) {
+        System.out.println("\n========== 战斗开始 ==========");
+        System.out.println("遭遇了 " + enemy.name + "！");
+        
+        Scanner sc = new Scanner(System.in);
+        
+        while (player.isAlive() && enemy.isAlive()) {
+            System.out.println("\n" + player.showStatus());
+            System.out.println(getBlood(enemy.name, enemy.HP, enemy.maxHP));
+            
+            playerTurn(player, enemy, wins);
+            
+            if (!enemy.isAlive()) {
+                System.out.println("\n" + enemy.name + " 被击败了！");
+                handleLoot(player, enemy, wins);
+                break;
+            }
+            
+            enemyTurn(enemy, player);
+            
+            if (!player.isAlive()) {
+                System.out.println("\n你被击败了！战斗结束！");
+                break;
+            }
+        }
+        
+        System.out.println("========== 战斗结束 ==========\n");
+    }
+    
+    private void handleLoot(Hero player, Enemy enemy, int wins) {
+        Random random = new Random();
+        
+        int goldReward = random.nextInt(20) + 10 + wins * 5;
+        player.addItem(new Item(13, "金币", Item.ItemType.POTION, "游戏货币", 9999, 0, 0, 0, 0), goldReward);
+        System.out.println("获得金币：" + goldReward + "G");
+        
+        int enemyLevel = wins + 1;
+        ArrayList<Item> possibleLoot = ItemFactory.getLootItems(enemyLevel);
+        
+        if (!possibleLoot.isEmpty() && random.nextInt(100) < 40) {
+            Item lootItem = possibleLoot.get(random.nextInt(possibleLoot.size()));
+            int quantity = 1;
+            if (lootItem.type == Item.ItemType.POTION) {
+                quantity = random.nextInt(2) + 1;
+            }
+            player.addItem(lootItem, quantity);
+        }
+    }
+    
+
 
     public static void playerTurn(Hero player, Enemy enemy,int wins){
         System.out.println("===你的回合===");
