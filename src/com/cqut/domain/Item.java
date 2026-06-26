@@ -15,7 +15,8 @@ public class Item {
     public enum ItemType {
         WEAPON("武器"),
         ARMOR("防具"),
-        POTION("药品");
+        POTION("药品"),
+        GOLD("金币");
 
         private final String typeName;
 

@@ -221,7 +221,7 @@ public class TextGame {
         Random random = new Random();
         
         int goldReward = random.nextInt(20) + 10 + wins * 5;
-        player.addItem(new Item(13, "金币", Item.ItemType.POTION, "游戏货币", 9999, 0, 0, 0, 0), goldReward);
+        player.addItem(new Item(13, "金币", Item.ItemType.GOLD, "游戏货币", 9999, 0, 0, 0, 0), goldReward);
         System.out.println("获得金币：" + goldReward + "G");
         
         int enemyLevel = wins + 1;

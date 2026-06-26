@@ -86,7 +86,7 @@ public class Floor {
             }
         }
 
-        if (floorNum%2==0){
+        if (floorNum%3==0){
             storeRoom=new Room(6);
         }
     }
@@ -215,7 +215,56 @@ public class Floor {
                     }
                 }
             } else if (TypeNUm==2) {
+                // 奖励房间逻辑
+                System.out.println("\n========== 奖励房间 ==========");
+                System.out.println("你发现了一个神秘的宝箱！");
                 
+                // 显示关闭的宝箱图案
+                showChest(false);
+                
+                // 询问玩家是否打开宝箱
+                Scanner sc = new Scanner(System.in);
+                System.out.print("\n是否打开宝箱？（1-是/2-否）：");
+                int choice = getValidInput(sc, 1, 2);
+                
+                if (choice == 1) {
+                    System.out.println("\n你打开了宝箱...");
+                    
+                    // 显示打开的宝箱图案
+                    showChest(true);
+                    
+                    // 随机获得10-100经验值
+                    Random random = new Random();
+                    int expGained = random.nextInt(91) + 10; // 10-100
+                    player.Exp += expGained;
+                    System.out.println("\n你获得了 " + expGained + " 点经验值！");
+                    System.out.println("当前经验值：" + player.Exp);
+                    
+
+                    Item rewardItem = getRandomRewardItem(random);
+                    if (rewardItem != null) {
+                        if (rewardItem.type == Item.ItemType.GOLD) {
+                            // 金币特殊处理：获得10-100个
+                            int goldCount = random.nextInt(91) + 10;
+                            player.addItem(rewardItem, goldCount);
+                            System.out.println("你获得了 " + goldCount + " 个金币！");
+                        } else if (rewardItem.type == Item.ItemType.POTION) {
+                            // 生成随机数量
+                            int potionCount = random.nextInt(1) + 1;
+                            player.addItem(rewardItem, potionCount);
+                            System.out.println("你获得了 " + potionCount + " 个" + rewardItem.name + "！");
+                        } else {
+                            player.addItem(rewardItem, 1);
+                            System.out.println("你获得了：" + rewardItem.name + "！");
+                        }
+                    }
+                    // 设置房间为已探索
+                    isFinished = true;
+
+                } else {
+                    System.out.println("\n你选择不打开宝箱，离开了房间。");
+                }
+                System.out.println("=========================\n");
             }else if (TypeNUm==3) {
                 
             }else if (TypeNUm==4) {
@@ -516,6 +565,70 @@ public class Floor {
                 sc.next(); // 清除非法输入
             }
         }
+    }
+    
+
+    private static void showChest(boolean isOpen) {
+        if (isOpen) {
+            System.out.println("      ╔════════════╗");
+            System.out.println("    ║    _______ ║ ║");
+            System.out.println("    ║   |      | ║ ║");
+            System.out.println("    ║   |______| ║ ║");
+            System.out.println("    ║  /      /  ║ ║");
+            System.out.println("    ║ /______/   ║ ║");
+            System.out.println("    ╚════════════╝\n");
+        } else {
+            System.out.println("      ╔════════════╗");
+            System.out.println("    ║  ╔══════╗  ║ ║");
+            System.out.println("    ║  ║      ║  ║ ║");
+            System.out.println("    ║  ║ ???? ║  ║ ║");
+            System.out.println("    ║  ║      ║  ║ ║");
+            System.out.println("    ║  ╚══════╝  ║ ║");
+            System.out.println("    ╚════════════╝\n");
+        }
+    }
+    
+
+    private static Item getRandomRewardItem(Random random) {
+        List<Item> allItems = ItemFactory.getAllItems();
+        
+        if (allItems.isEmpty()) {
+            return null;
+        }
+        
+        // 先决定物品类型
+        int typeRoll = random.nextInt(100);
+        Item.ItemType targetType;
+        
+        if (typeRoll < 30) {
+            // 30% 金币
+            targetType = Item.ItemType.GOLD;
+        } else if (typeRoll < 70) {
+            // 40% 药水
+            targetType = Item.ItemType.POTION;
+        } else if (typeRoll < 85) {
+            // 15% 武器
+            targetType = Item.ItemType.WEAPON;
+        } else {
+            // 15% 防具
+            targetType = Item.ItemType.ARMOR;
+        }
+        
+        // 筛选出该类型的所有物品
+        List<Item> typeItems = new ArrayList<>();
+        for (Item item : allItems) {
+            if (item.type == targetType) {
+                typeItems.add(item);
+            }
+        }
+        
+        // 如果该类型没有物品，返回第一个物品
+        if (typeItems.isEmpty()) {
+            return allItems.get(0);
+        }
+        
+        // 从该类型中随机选择一个
+        return typeItems.get(random.nextInt(typeItems.size()));
     }
 
 }

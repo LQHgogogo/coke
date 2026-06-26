@@ -26,7 +26,7 @@ public class ItemFactory {
         itemDatabase.put(11, Item.createPotion(11, "大型生命药水", 100, 3, 70));
         itemDatabase.put(12, Item.createPotion(12, "超级生命药水", 200, 2, 150));
         
-        itemDatabase.put(13, new Item(13, "金币", Item.ItemType.POTION, "游戏货币", 9999, 0, 0, 0, 0));
+        itemDatabase.put(13, new Item(13, "金币", Item.ItemType.GOLD, "游戏货币", 9999, 0, 0, 0, 0));
     }
 
     public static ArrayList<Item> getAllItems() {
