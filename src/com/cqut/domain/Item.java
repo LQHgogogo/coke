@@ -5,18 +5,11 @@ public class Item {
     public String name;
     public ItemType type;
     public String description;
+
     public int maxCount;
-
-    // 武器属性
     public int attackBonus;
-
-    // 防具属性
     public int defenseBonus;
-
-    // 药品属性
     public int healAmount;
-
-    // 价格
     public int price;
 
     public enum ItemType {

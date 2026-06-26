@@ -18,25 +18,22 @@ public class Floor {
     }
     
     public void setRooms() {
-        rooms = new Room[10]; // 初始化房间数
+        rooms = new Room[10];
         Random random = new Random();
-        
-        // 房间类型定义1=战斗, 2=奖励, 3=boss, 4=剧情, 5=空房间
+
         int[] roomTypes = new int[10];
         
-        // boss房间
+
         int bossIndex = random.nextInt(10);
         roomTypes[bossIndex] = 3;
-        
-        // 剧情房间
+
         int storyIndex;
         do {
             storyIndex = random.nextInt(10);
         } while (storyIndex == bossIndex);
         roomTypes[storyIndex] = 4;
-        
-        // 战斗房间，随机生�?-3个战斗房�?
-        int battleCount = random.nextInt(3) + 1; // 1-3个战斗房�?
+
+        int battleCount = random.nextInt(3) + 1;
         int placedBattle = 0;
         while (placedBattle < battleCount) {
             int index = random.nextInt(10);
@@ -45,8 +42,7 @@ public class Floor {
                 placedBattle++;
             }
         }
-        
-        // 4. 奖励房间(类型2)至多3个，随机生成0-3�?
+
         int rewardCount = random.nextInt(4);
         int placedReward = 0;
         while (placedReward < rewardCount) {
@@ -56,8 +52,7 @@ public class Floor {
                 placedReward++;
             }
         }
-        
-        // 5. 剩余房间填为空房�?
+
         for (int i = 0; i < 10; i++) {
             if (roomTypes[i] == 0) {
                 roomTypes[i] = 5;

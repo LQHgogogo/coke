@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Hero extends Character {
-    
-    // ==================== 属性字段 ====================
-    
+
     public ArrayList<String> skillList;
     public HashMap<Integer, Integer> bag;
     public int Lv;
@@ -22,8 +20,6 @@ public class Hero extends Character {
     
     private int baseAttack;
     private int baseDefense;
-
-    // ==================== 构造方法 ====================
 
     public Hero() {
         super();
@@ -46,8 +42,6 @@ public class Hero extends Character {
         equippedArmor = null;
     }
 
-    // ==================== 技能系统 ====================
-
     public void addSkill(String skill) {
         skillList.add(skill);
     }
@@ -62,8 +56,6 @@ public class Hero extends Character {
         }
         return sb.toString();
     }
-
-    // ==================== 装备系统 ====================
 
     public void equipItem(int itemId) {
         if (!hasItem(itemId)) {
@@ -141,8 +133,6 @@ public class Hero extends Character {
         this.baseDefense = baseDefense;
         updateStats();
     }
-
-    // ==================== 背包系统 ====================
 
     public void addItem(Item item, int count) {
         if (item.type == Item.ItemType.WEAPON || item.type == Item.ItemType.ARMOR) {
@@ -255,8 +245,6 @@ public class Hero extends Character {
     public boolean hasItem(int itemId) {
         return bag.containsKey(itemId);
     }
-
-    // ==================== 显示系统 ====================
 
     public void showBag() {
         System.out.println("\n========== 背包 ==========");
