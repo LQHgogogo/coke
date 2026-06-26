@@ -35,8 +35,8 @@ public class Floor {
         } while (storyIndex == bossIndex);
         roomTypes[storyIndex] = 4;
         
-        // 战斗房间，随机生�?-3个战斗房�?
-        int battleCount = random.nextInt(3) + 1; // 1-3个战斗房�?
+        // 战斗房间，随机生1-3个战斗房
+        int battleCount = random.nextInt(3) + 1; // 1-3个战斗房
         int placedBattle = 0;
         while (placedBattle < battleCount) {
             int index = random.nextInt(10);
@@ -46,7 +46,7 @@ public class Floor {
             }
         }
         
-        // 4. 奖励房间(类型2)至多3个，随机生成0-3�?
+        // 4. 奖励房间(类型2)至多3个，随机生成0-3
         int rewardCount = random.nextInt(4);
         int placedReward = 0;
         while (placedReward < rewardCount) {
@@ -57,7 +57,7 @@ public class Floor {
             }
         }
         
-        // 5. 剩余房间填为空房�?
+        // 5. 剩余房间填为空房
         for (int i = 0; i < 10; i++) {
             if (roomTypes[i] == 0) {
                 roomTypes[i] = 5;
@@ -181,18 +181,23 @@ public class Floor {
             isFinished = false;
         }
         
-        //触发房间探索交互功能�?为战斗房间，2为奖励房间，3为剧情房间，4为楼层boss房，5为空房间,6为商店房�?
-        public void Trigger(Floor floor)
+        //触发房间探索交互功能 1为战斗房间，2为奖励房间，3为剧情房间，4为楼层boss房，5为空房间,6为商店房
+        public void Trigger(Floor floor, Hero hero)
         {
             if (TypeNUm==1){
                 
             } else if (TypeNUm==2) {
                 
-            }else if (TypeNUm==3) {
+            }else if (TypeNUm==3) { // 剧情房间：调用StoryManager处理
+                boolean triggered = StoryManager.triggerStory(hero, floor);
+                isFinished = true;
+                if (hero.storyProgress >= StoryManager.STORY_COMPLETE) {
+                    floor.setClear(true);
                 
             }else if (TypeNUm==4) {
                 isFinished = true;
                 floor.setClear(true);
+                }
             }else if (TypeNUm==5){
                 isFinished = true;
             }else if (TypeNUm==6){

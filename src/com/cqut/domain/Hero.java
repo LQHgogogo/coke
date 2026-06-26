@@ -20,6 +20,9 @@ public class Hero extends Character {
     public Item equippedWeapon;
     public Item equippedArmor;
     
+    // 剧情进度: 0=未触发, 1=螺旋之门, 2=莉娅的火堆, 3=被遗忘的矿洞, 4=神骸回廊, 5=维兰德斯王座, 6=神域胎心, 7=剧情完结
+    public int storyProgress;
+    
     private int baseAttack;
     private int baseDefense;
 
@@ -44,6 +47,7 @@ public class Hero extends Character {
         Exp = 0;
         equippedWeapon = null;
         equippedArmor = null;
+        storyProgress = 0;
     }
 
     // ==================== 技能系统 ====================
