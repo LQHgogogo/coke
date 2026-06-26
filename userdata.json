@@ -15,11 +15,12 @@
       },
       "Lv": 1,
       "Exp": 0,
+      "gold": 0,
       "headFloor": {
         "rooms": [
           {
             "TypeNUm": 1,
-            "isFinished": true
+            "isFinished": false
           },
           {
             "TypeNUm": 2,
@@ -65,9 +66,80 @@
       "baseAttack": 20,
       "baseDefense": 5,
       "name": "coke",
-      "HP": 143,
+      "HP": 200,
       "maxHP": 200,
       "attack": 20,
+      "defense": 5
+    }
+  },
+  {
+    "id": "cqut67550",
+    "username": "hqy",
+    "password": "hqy123",
+    "status": true,
+    "Hero": {
+      "skillList": [
+        "普通攻击",
+        "强力一击",
+        "生命汲取"
+      ],
+      "bag": {},
+      "Lv": 1,
+      "Exp": 0,
+      "gold": 0,
+      "headFloor": {
+        "rooms": [
+          {
+            "TypeNUm": 4,
+            "isFinished": true
+          },
+          {
+            "TypeNUm": 3,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 1,
+            "isFinished": true
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          }
+        ],
+        "floorNum": 1,
+        "isClear": true
+      },
+      "currentFloorNum": 1,
+      "baseAttack": 30,
+      "baseDefense": 5,
+      "name": "hqy",
+      "HP": 113,
+      "maxHP": 150,
+      "attack": 30,
       "defense": 5
     }
   }

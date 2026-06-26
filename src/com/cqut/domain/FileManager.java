@@ -10,6 +10,8 @@ import java.util.ArrayList;
 public class FileManager {
     public static final Gson gson=new  GsonBuilder().setPrettyPrinting().create();
 
+    public  static final String USER_DATA_PATH = "userdata.json";
+
     public static void saveUser(ArrayList<User> users, String filePath) {
         try (FileWriter fw=new FileWriter(filePath)) {
             fw.write(gson.toJson(users));

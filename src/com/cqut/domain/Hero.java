@@ -10,7 +10,8 @@ public class Hero extends Character {
     public HashMap<Integer, Integer> bag;
     public int Lv;
     public int Exp;
-    
+    private  int gold;
+
     public Floor headFloor;
     public transient Floor currentFloor;
     public int currentFloorNum;
@@ -38,6 +39,7 @@ public class Hero extends Character {
         bag = new HashMap<Integer, Integer>();
         Lv = 1;
         Exp = 0;
+        gold = 0;
         equippedWeapon = null;
         equippedArmor = null;
     }
@@ -279,6 +281,26 @@ public class Hero extends Character {
     public boolean hasItem(int itemId) {
         return bag.containsKey(itemId);
     }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void addGold(int amount) {
+        this.gold +=amount;
+        if(this.gold<0){
+            this.gold=0;
+        }
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+        if(this.gold < 0){
+            this.gold=0;
+        }
+    }
+
+    // ==================== 显示系统 ====================
 
     public void showBag() {
         System.out.println("\n========== 背包 ==========");
