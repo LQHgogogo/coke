@@ -197,7 +197,7 @@ public class Floor {
                     playerTurn(floor,player, enemy,wins);
                     if(!enemy.isAlive()){
                         System.out.println("你击杀了"+enemy.name);
-                        wins++;
+                        handleLootDrop(player,enemy);
                         isFinished = true;
                         return;
                     }
@@ -421,6 +421,26 @@ public class Floor {
                 System.out.println("无效输入，请输入数字：");
                 sc.next(); // 清除非法输入
             }
+        }
+    }
+    public static void handleLootDrop(Hero player, Enemy enemy) {
+        Random random = new Random();
+        double dropRate = 0.3;
+        if (random.nextDouble() > dropRate) {
+            return;
+        }
+        int itemId = random.nextInt(12) + 1;
+        Item lootItem = ItemFactory.getItemById(itemId);
+
+        if (lootItem == null) {
+            return;
+        }
+        if (itemId >= 9 && itemId <= 12) {
+            player.addItem(lootItem, 1);
+            System.out.println("怪物掉落了：" + lootItem.name + " x1");
+        } else {
+            player.addItem(lootItem, 1);
+            System.out.println("怪物掉落了：" + lootItem.name);
         }
     }
 }
