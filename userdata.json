@@ -19,7 +19,7 @@
         "rooms": [
           {
             "TypeNUm": 1,
-            "isFinished": false
+            "isFinished": true
           },
           {
             "TypeNUm": 2,
@@ -65,7 +65,7 @@
       "baseAttack": 20,
       "baseDefense": 5,
       "name": "coke",
-      "HP": 200,
+      "HP": 143,
       "maxHP": 200,
       "attack": 20,
       "defense": 5

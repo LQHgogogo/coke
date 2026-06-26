@@ -76,20 +76,6 @@ public class TextGame {
                         while(true){
                             current.showRoomStatus();
 
-                            boolean allExplored = true;
-                            for (int i = 0; i < current.getRooms().length; i++){
-                                if (current.getRooms()[i].getTypeNum() != 5 && !current.getRooms()[i].isFinished()){
-                                    allExplored = false;
-                                    break;
-                                }
-                            }
-
-                            if (allExplored){
-                                System.out.println("本层所有房间已探索完成，自动进入下一层！");
-                                count++;
-                                break;
-                            }
-
                             if (current.isClear()){
                                 System.out.println("BOSS已击败！你可以：");
                                 System.out.println("1.进入下一层");
@@ -165,7 +151,7 @@ public class TextGame {
 
                     case 5:
                         System.out.println("游戏结束，已保存进度");
-                        FileManager.saveUser(list,"D:/code/IDEA_PRE/First_Project/userdata.json");
+                        FileManager.saveUser(list,"userdata.json");
                         return;
                     default:
                         System.out.println("无效输入");

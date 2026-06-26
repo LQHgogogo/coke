@@ -11,7 +11,7 @@ public class login {
         System.out.println("打开了登录注册页面");
 
         ArrayList<User> list = new ArrayList<User>();
-        list = FileManager.loadUser("D:/code/IDEA_PRE/First_Project/userdata.json");
+        list = FileManager.loadUser("userdata.json");
 
         while (true) {
             System.out.println("============================");
@@ -135,7 +135,7 @@ public class login {
             break;
         }   //输入密码
         list.add(u);
-        FileManager.saveUser(list, "D:/code/IDEA_PRE/First_Project/userdata.json");
+        FileManager.saveUser(list, "userdata.json");
         System.out.println("用户"+u.getUsername()+"注册成功！");
 
     }
