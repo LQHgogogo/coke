@@ -1,4 +1,4 @@
-﻿package com.cqut.ui;
+package com.cqut.ui;
 
 import com.cqut.domain.*;
 
@@ -118,7 +118,7 @@ public class TextGame {
                         break;
 
                     case 2:
-                        System.out.println("请选择楼层：");
+                        System.out.println("请选择楼层(当前可选择层数1-" + count + ") ：");
                         int floorChoice = sc.nextInt();
 
                         if (floorChoice < 1 || floorChoice > count){

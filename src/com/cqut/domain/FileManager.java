@@ -20,11 +20,12 @@ public class FileManager {
 
     public static ArrayList<User> loadUser(String filePath) {
         File file = new File(filePath);
-        if (!file.exists()) {
+        if (!file.exists() || file.length() == 0) {
             return new ArrayList<>();
         }
         try (FileReader fr = new FileReader(filePath)) {
-            return gson.fromJson(fr, new TypeToken<ArrayList<User>>(){}.getType());
+            ArrayList<User> result = gson.fromJson(fr, new TypeToken<ArrayList<User>>(){}.getType());
+            return result != null ? result : new ArrayList<>();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

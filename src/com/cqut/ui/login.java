@@ -135,6 +135,7 @@ public class login {
             break;
         }   //输入密码
         list.add(u);
+        FileManager.saveUser(list, "D:/code/IDEA_PRE/First_Project/userdata.json");
         System.out.println("用户"+u.getUsername()+"注册成功！");
 
     }

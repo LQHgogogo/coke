@@ -1,0 +1,74 @@
+[
+  {
+    "id": "cqut58984",
+    "username": "coke",
+    "password": "coke12",
+    "status": true,
+    "Hero": {
+      "skillList": [
+        "普通攻击",
+        "强力一击",
+        "生命汲取"
+      ],
+      "bag": {
+        "13": 100
+      },
+      "Lv": 1,
+      "Exp": 0,
+      "headFloor": {
+        "rooms": [
+          {
+            "TypeNUm": 1,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 2,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 3,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 4,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          }
+        ],
+        "floorNum": 1,
+        "isClear": false
+      },
+      "currentFloorNum": 1,
+      "baseAttack": 20,
+      "baseDefense": 5,
+      "name": "coke",
+      "HP": 200,
+      "maxHP": 200,
+      "attack": 20,
+      "defense": 5
+    }
+  }
+]
