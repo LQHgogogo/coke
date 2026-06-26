@@ -2,6 +2,7 @@ package com.cqut.domain;
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Floor {
@@ -208,7 +209,56 @@ public class Floor {
                     }
                 }
             } else if (TypeNUm==2) {
-                
+                // 奖励房间逻辑
+                System.out.println("\n========== 奖励房间 ==========");
+                System.out.println("你发现了一个神秘的宝箱！");
+
+                // 显示关闭的宝箱图案
+                showChest(false);
+
+                // 询问玩家是否打开宝箱
+                Scanner sc = new Scanner(System.in);
+                System.out.print("\n是否打开宝箱？（1-是/2-否）：");
+                int choice = getValidInput(sc, 1, 2);
+
+                if (choice == 1) {
+                    System.out.println("\n你打开了宝箱...");
+
+                    // 显示打开的宝箱图案
+                    showChest(true);
+
+                    // 随机获得10-100经验值
+                    Random random = new Random();
+                    int expGained = random.nextInt(91) + 10; // 10-100
+                    player.Exp += expGained;
+                    System.out.println("\n你获得了 " + expGained + " 点经验值！");
+                    System.out.println("当前经验值：" + player.Exp);
+
+
+                    Item rewardItem = getRandomRewardItem(random);
+                    if (rewardItem != null) {
+                        if (rewardItem.type == Item.ItemType.GOLD) {
+                            // 金币特殊处理：获得10-100个
+                            int goldCount = random.nextInt(91) + 10;
+                            player.addItem(rewardItem, goldCount);
+                            System.out.println("你获得了 " + goldCount + " 个金币！");
+                        } else if (rewardItem.type == Item.ItemType.POTION) {
+                            // 生成随机数量
+                            int potionCount = random.nextInt(1) + 1;
+                            player.addItem(rewardItem, potionCount);
+                            System.out.println("你获得了 " + potionCount + " 个" + rewardItem.name + "！");
+                        } else {
+                            player.addItem(rewardItem, 1);
+                            System.out.println("你获得了：" + rewardItem.name + "！");
+                        }
+                    }
+                    // 设置房间为已探索
+                    isFinished = true;
+
+                } else {
+                    System.out.println("\n你选择不打开宝箱，离开了房间。");
+                }
+                System.out.println("=========================\n");
             }else if (TypeNUm==3) {
                 
             }else if (TypeNUm==4) {
@@ -249,7 +299,94 @@ public class Floor {
             }else if (TypeNUm==5){
                 isFinished = true;
             }else if (TypeNUm==6){
+                // 商店房间逻辑
+                List<Item> shopItems = new ArrayList<>();
+                Random random = new Random();
 
+                // 生成商店物品
+                List<Item> allItems = ItemFactory.getAllItems();
+                for (Item item : allItems) {
+                    if (item.id == 13) {
+                        continue;
+                    }
+
+                    if (item.type == Item.ItemType.POTION && random.nextInt(100) < 60) {
+                        shopItems.add(item);
+                    } else if ((item.type == Item.ItemType.WEAPON || item.type == Item.ItemType.ARMOR)
+                               && random.nextInt(100) < 30) {
+                        shopItems.add(item);
+                    }
+                }
+
+                if (shopItems.isEmpty()) {
+                    shopItems.add(ItemFactory.getItemById(9));
+                    shopItems.add(ItemFactory.getItemById(1));
+                }
+
+                // 打开商店
+                System.out.println("\n========== 商店 ==========");
+                System.out.println("欢迎来到神秘商店！");
+                System.out.println("当前金币: " + player.getGold() + "G\n");
+
+                // 显示商品列表
+                System.out.println("可购买商品列表：");
+                int index = 1;
+                for (Item item : shopItems) {
+                    System.out.println(index + ". [ID:" + item.id + "] " + item.showInfo());
+                    index++;
+                }
+                System.out.println();
+
+                // 购买循环
+                Scanner sc = new Scanner(System.in);
+                while (true) {
+                    System.out.print("请输入要购买的物品ID（0退出）：");
+                    int choice = 0;
+                    try {
+                        choice = sc.nextInt();
+                    } catch (Exception e) {
+                        sc.next();
+                        System.out.println("无效输入！");
+                        continue;
+                    }
+
+                    if (choice == 0) {
+                        System.out.println("感谢光临！");
+                        break;
+                    }
+
+                    // 购买物品
+                    Item targetItem = null;
+                    for (Item item : shopItems) {
+                        if (item.id == choice) {
+                            targetItem = item;
+                            break;
+                        }
+                    }
+
+                    if (targetItem == null) {
+                        System.out.println("商品不存在！");
+                        continue;
+                    }
+
+                    if (player.getGold() < targetItem.price) {
+                        System.out.println("金币不足！需要 " + targetItem.price + "G，当前拥有 " + player.getGold() + "G");
+                        continue;
+                    }
+
+                    if ((targetItem.type == Item.ItemType.WEAPON || targetItem.type == Item.ItemType.ARMOR)
+                        && player.hasItem(choice)) {
+                        System.out.println("你已经拥有该装备！");
+                        continue;
+                    }
+
+                    player.addGold(-targetItem.price);
+                    player.addItem(targetItem, 1);
+                    System.out.println("成功购买 " + targetItem.name + "！花费 " + targetItem.price + "G，剩余 " + player.getGold() + "G");
+                }
+                System.out.println("=========================\n");
+
+                isFinished = true;
             }
         }
         

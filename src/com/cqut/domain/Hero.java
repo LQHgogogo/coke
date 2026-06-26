@@ -300,7 +300,7 @@ public class Hero extends Character {
         }
     }
 
-    // ==================== 显示系统 ====================
+
 
     public void showBag() {
         System.out.println("\n========== 背包 ==========");
