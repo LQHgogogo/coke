@@ -102,17 +102,23 @@ public class TextGame {
                             }
 
                             System.out.println("请选择房间(-1退出本层探索)：");
+
                             int roomChoice = sc.nextInt();
                             if (roomChoice == -1){
                                 System.out.println("退出本层探索");
                                 break;
                             }
 
-                            if (roomChoice < 1 || roomChoice > roomCount){
-                                System.out.println("无效房间号，请输入 1-" + roomCount + " 之间的数字：");
-                                roomChoice = getValidInput(sc, 1, roomCount);
-                            }
+                            int maxRoom = current.getStoreRoom() != null ? roomCount + 1 : roomCount;
 
+                            if (roomChoice < 1 || roomChoice > maxRoom){
+                                System.out.println("无效房间号，请输入 1-" + maxRoom + " 之间的数字：");
+                                roomChoice = getValidInput(sc, 1, maxRoom);
+                            }
+                            if (current.getStoreRoom() != null && roomChoice == roomCount + 1){
+                                current.getStoreRoom().Trigger(current, player, enemies);
+                                continue;
+                            }
                             current.getRooms()[roomChoice - 1].Trigger(current, player, enemies);
                         }
                         break;
@@ -212,8 +218,6 @@ public class TextGame {
 
         return  player;
     }
-
-
     
     private void handleLoot(Hero player, Enemy enemy, int wins) {
         Random random = new Random();
