@@ -79,7 +79,7 @@ public class Floor {
             }
         }
 
-        if (floorNum%2==0){
+        if (floorNum%3==0){
             storeRoom=new Room(6);
         }
     }
@@ -118,6 +118,9 @@ public class Floor {
                 }
                 count++;
             }
+        }
+        if (storeRoom!=null) {
+            System.out.println("第" + floorNum + "层第" + count + "个房间：商店房");
         }
     }
 
@@ -203,7 +206,6 @@ public class Floor {
                         System.out.println("你被"+enemy.name+"杀死");
                         isFinished = true;
                     }
-
                 }
             } else if (TypeNUm==2) {
                 
