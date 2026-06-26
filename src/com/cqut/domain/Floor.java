@@ -194,8 +194,8 @@ public class Floor {
                 System.out.println(enemy.showStatus());
                 int wins=0;
                 while(player.isAlive() && enemy.isAlive()){
-                    System.out.println(player.name+"HP"+player.HP+"|"+player.maxHP);
-                    System.out.println(enemy.name+"HP"+enemy.HP+"|"+enemy.maxHP);
+                    System.out.println(floor.getBlood(player.name, player.HP, player.maxHP));
+                    System.out.println(floor.getBlood(enemy.name, enemy.HP, enemy.maxHP));
                     playerTurn(player, enemy,wins);
                     if(!enemy.isAlive()){
                         System.out.println("你击杀了"+enemy.name);
@@ -364,6 +364,21 @@ public class Floor {
             Demage=1;
         }
         return Demage;
+    }
+    public String getBlood(String  name,int HP,int maxHP){
+        int BloodLength=20;
+        int filled =(int)( HP * 1.0 / maxHP * BloodLength);
+        StringBuilder sb = new StringBuilder();
+        sb.append(name).append("【");
+        for (int i = 0; i < 20; i++) {
+            if (i < filled){
+                sb.append("⬛\uFE0F");
+            }else {
+                sb.append("⬜\uFE0F");
+            }
+        }
+        sb.append("】").append( HP).append("/"+maxHP).append(" HP");
+        return sb.toString();
     }
 
     public static int getValidInput(Scanner sc, int min, int max) {

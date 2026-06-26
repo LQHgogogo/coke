@@ -137,21 +137,7 @@ public class TextGame {
         }
     }
 
-    public String getBlood(String  name,int HP,int maxHP){
-        int BloodLength=20;
-        int filled =(int)( HP * 1.0 / maxHP * BloodLength);
-        StringBuilder sb = new StringBuilder();
-        sb.append(name).append("【");
-        for (int i = 0; i < 20; i++) {
-            if (i < filled){
-                sb.append("⬛\uFE0F");
-            }else {
-                sb.append("⬜\uFE0F");
-            }
-        }
-        sb.append("】").append( HP).append("/"+maxHP).append(" HP");
-        return sb.toString();
-    }
+
 
     public Hero creatCharacter(String username) {
         System.out.println("创建你的角色：");
