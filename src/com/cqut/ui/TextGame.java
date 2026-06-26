@@ -110,7 +110,7 @@ public class TextGame {
                                 roomChoice = getValidInput(sc, 1, roomCount);
                             }
 
-                            current.getRooms()[roomChoice - 1].Trigger(current);
+                            current.getRooms()[roomChoice - 1].Trigger(current, player, enemies);
                         }
                         break;
 
