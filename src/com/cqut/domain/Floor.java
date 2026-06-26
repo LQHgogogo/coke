@@ -188,7 +188,7 @@ public class Floor {
             if (TypeNUm==1){
                 System.out.println("你进入战斗房间");
                 Random random = new Random();
-                Enemy enemy=enemies.get(random.nextInt(enemies.size()));
+                Enemy enemy = new Enemy(enemies.get(random.nextInt(enemies.size())));
                 System.out.println("你遇到了"+enemy.name);
                 System.out.println(enemy.showStatus());
                 int wins=0;
@@ -264,7 +264,7 @@ public class Floor {
             }else if (TypeNUm==4) {
                 System.out.println("你进入了BOSS房间！");
                 Random random = new Random();
-                Enemy boss = bosses.get(random.nextInt(bosses.size()));
+                Enemy boss = new Enemy(bosses.get(random.nextInt(bosses.size())));
                 System.out.println("你遇到了BOSS：" + boss.name);
                 System.out.println(boss.showStatus());
 
@@ -697,19 +697,19 @@ public class Floor {
     private static void showChest(boolean isOpen) {
         if (isOpen) {
             System.out.println("      ╔════════════╗");
-            System.out.println("    ║    _______ ║ ║");
-            System.out.println("    ║   |      | ║ ║");
-            System.out.println("    ║   |______| ║ ║");
-            System.out.println("    ║  /      /  ║ ║");
-            System.out.println("    ║ /______/   ║ ║");
+            System.out.println("    ║            ║  ");
+            System.out.println("    ║            ║  ");
+            System.out.println("    ║     🌟     ║  ");
+            System.out.println("    ║            ║  ");
+            System.out.println("    ║            ║  ");
             System.out.println("    ╚════════════╝\n");
         } else {
-            System.out.println("      ╔════════════╗");
-            System.out.println("    ║  ╔══════╗  ║ ║");
-            System.out.println("    ║  ║      ║  ║ ║");
-            System.out.println("    ║  ║ ???? ║  ║ ║");
-            System.out.println("    ║  ║      ║  ║ ║");
-            System.out.println("    ║  ╚══════╝  ║ ║");
+            System.out.println("    ╔════════════╗");
+            System.out.println("    ║  ╔══════╗  ║");
+            System.out.println("    ║  ║      ║  ║");
+            System.out.println("    ║  ║ ???? ║  ║");
+            System.out.println("    ║  ║      ║  ║");
+            System.out.println("    ║  ╚══════╝  ║");
             System.out.println("    ╚════════════╝\n");
         }
     }
@@ -727,20 +727,15 @@ public class Floor {
         Item.ItemType targetType;
 
         if (typeRoll < 30) {
-            // 30% 金币
             targetType = Item.ItemType.GOLD;
         } else if (typeRoll < 70) {
-            // 40% 药水
             targetType = Item.ItemType.POTION;
         } else if (typeRoll < 85) {
-            // 15% 武器
             targetType = Item.ItemType.WEAPON;
         } else {
-            // 15% 防具
             targetType = Item.ItemType.ARMOR;
         }
 
-        // 筛选出该类型的所有物品
         List<Item> typeItems = new ArrayList<>();
         for (Item item : allItems) {
             if (item.type == targetType) {
@@ -748,7 +743,6 @@ public class Floor {
             }
         }
 
-        // 如果该类型没有物品，返回第一个物品
         if (typeItems.isEmpty()) {
             return allItems.get(0);
         }

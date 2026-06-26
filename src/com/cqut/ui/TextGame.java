@@ -13,6 +13,8 @@ public class TextGame {
         System.out.println("     "+username+"欢迎来到文字格斗游戏     ");
         System.out.println("============================");
 
+        restartGame:
+        while (true) {
         Hero player = null;
         Floor head = null;
         int count;
@@ -31,6 +33,7 @@ public class TextGame {
         } else {
             player = user.getHero();
             head = player.headFloor;
+            player.updateStats();
             System.out.println("角色加载成功");
             count = player.currentFloorNum;
         }
@@ -67,6 +70,7 @@ public class TextGame {
             player.currentFloorNum = count;
 
             int roomCount = current.getSpareRoomCount();
+            floorMenu: //楼层循环标签
             while (true){
                 System.out.println("请选择操作：1.开始探索本层");
                 System.out.println("          2.选择楼层");
@@ -90,7 +94,7 @@ public class TextGame {
                                 int choice = getValidInput(sc, 1, 2);
                                 if (choice == 1){
                                     count++;
-                                    break;
+                                    break floorMenu;
                                 }
                             }
 
@@ -110,9 +114,24 @@ public class TextGame {
                             }
                             if (current.getStoreRoom() != null && roomChoice == roomCount + 1){
                                 current.getStoreRoom().Trigger(current, player, enemies, bosses);
-                                continue;
+                            } else {
+                                current.getRooms()[roomChoice - 1].Trigger(current, player, enemies, bosses);
                             }
-                            current.getRooms()[roomChoice - 1].Trigger(current, player, enemies, bosses);
+
+                            if (!player.isAlive()) {
+                                System.out.println("\n你已死亡！");
+                                System.out.println("1.重新开始");
+                                System.out.println("2.退出游戏");
+                                int deathChoice = getValidInput(sc, 1, 2);
+                                if (deathChoice == 1) {
+                                    user.setHero(null);
+                                    break restartGame;
+                                } else {
+                                    System.out.println("游戏结束，已保存进度");
+                                    FileManager.saveUser(list, "userdata.json");
+                                    return;
+                                }
+                            }
                         }
                         break;
 
@@ -125,7 +144,7 @@ public class TextGame {
                             floorChoice = getValidInput(sc, 1, count);
                         }
                         count = floorChoice;
-                        break;
+                        break floorMenu;
                         
                     case 3:
                         player.showBag();
@@ -165,6 +184,7 @@ public class TextGame {
                         break;
                 }
             }
+        }
         }
     }
 

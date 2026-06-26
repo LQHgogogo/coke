@@ -4,8 +4,8 @@ public class Character {
    public String name;
    public int HP;
    public int maxHP;
-   public int attack;
-   public int defense;
+   public transient int attack;
+   public transient int defense;
 
     public Character(){}
 

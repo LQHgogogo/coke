@@ -114,7 +114,7 @@ public class Hero extends Character {
         }
     }
 
-    private void updateStats() {
+    public void updateStats() {
         this.attack = baseAttack;
         this.defense = baseDefense;
 

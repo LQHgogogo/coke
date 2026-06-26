@@ -1,6 +1,6 @@
 [
   {
-    "id": "cqut58984",
+    "id": "cqut73256",
     "username": "coke",
     "password": "coke12",
     "status": true,
@@ -11,107 +11,41 @@
         "生命汲取"
       ],
       "bag": {
-        "13": 100
+        "5": 1,
+        "6": 1,
+        "9": 1,
+        "11": 1,
+        "12": 2,
+        "13": 216
       },
-      "Lv": 1,
-      "Exp": 0,
+      "Lv": 4,
+      "Exp": 15,
       "gold": 0,
       "headFloor": {
         "rooms": [
           {
-            "TypeNUm": 1,
+            "TypeNUm": 3,
             "isFinished": false
           },
           {
             "TypeNUm": 2,
-            "isFinished": false
-          },
-          {
-            "TypeNUm": 3,
-            "isFinished": false
-          },
-          {
-            "TypeNUm": 4,
-            "isFinished": false
-          },
-          {
-            "TypeNUm": 5,
-            "isFinished": false
-          },
-          {
-            "TypeNUm": 5,
-            "isFinished": false
-          },
-          {
-            "TypeNUm": 5,
-            "isFinished": false
-          },
-          {
-            "TypeNUm": 5,
-            "isFinished": false
-          },
-          {
-            "TypeNUm": 5,
-            "isFinished": false
-          },
-          {
-            "TypeNUm": 5,
-            "isFinished": false
-          }
-        ],
-        "floorNum": 1,
-        "isClear": false
-      },
-      "currentFloorNum": 1,
-      "baseAttack": 20,
-      "baseDefense": 5,
-      "name": "coke",
-      "HP": 200,
-      "maxHP": 200,
-      "attack": 20,
-      "defense": 5
-    }
-  },
-  {
-    "id": "cqut67550",
-    "username": "hqy",
-    "password": "hqy123",
-    "status": true,
-    "Hero": {
-      "skillList": [
-        "普通攻击",
-        "强力一击",
-        "生命汲取"
-      ],
-      "bag": {},
-      "Lv": 1,
-      "Exp": 0,
-      "gold": 0,
-      "headFloor": {
-        "rooms": [
-          {
-            "TypeNUm": 4,
             "isFinished": true
           },
           {
-            "TypeNUm": 3,
-            "isFinished": false
+            "TypeNUm": 2,
+            "isFinished": true
+          },
+          {
+            "TypeNUm": 2,
+            "isFinished": true
           },
           {
             "TypeNUm": 1,
             "isFinished": true
           },
           {
-            "TypeNUm": 5,
-            "isFinished": false
-          },
-          {
-            "TypeNUm": 5,
-            "isFinished": false
-          },
-          {
-            "TypeNUm": 5,
-            "isFinished": false
+            "TypeNUm": 4,
+            "isFinished": true
           },
           {
             "TypeNUm": 5,
@@ -131,22 +65,110 @@
           }
         ],
         "floorNum": 1,
-        "isClear": true
+        "isClear": true,
+        "nextFloor": {
+          "rooms": [
+            {
+              "TypeNUm": 2,
+              "isFinished": true
+            },
+            {
+              "TypeNUm": 4,
+              "isFinished": true
+            },
+            {
+              "TypeNUm": 3,
+              "isFinished": false
+            },
+            {
+              "TypeNUm": 2,
+              "isFinished": true
+            },
+            {
+              "TypeNUm": 1,
+              "isFinished": true
+            },
+            {
+              "TypeNUm": 1,
+              "isFinished": true
+            },
+            {
+              "TypeNUm": 1,
+              "isFinished": false
+            },
+            {
+              "TypeNUm": 5,
+              "isFinished": false
+            },
+            {
+              "TypeNUm": 5,
+              "isFinished": false
+            },
+            {
+              "TypeNUm": 5,
+              "isFinished": false
+            }
+          ],
+          "floorNum": 2,
+          "isClear": true,
+          "nextFloor": {
+            "rooms": [
+              {
+                "TypeNUm": 1,
+                "isFinished": false
+              },
+              {
+                "TypeNUm": 3,
+                "isFinished": false
+              },
+              {
+                "TypeNUm": 1,
+                "isFinished": false
+              },
+              {
+                "TypeNUm": 2,
+                "isFinished": false
+              },
+              {
+                "TypeNUm": 4,
+                "isFinished": false
+              },
+              {
+                "TypeNUm": 1,
+                "isFinished": false
+              },
+              {
+                "TypeNUm": 5,
+                "isFinished": false
+              },
+              {
+                "TypeNUm": 5,
+                "isFinished": false
+              },
+              {
+                "TypeNUm": 5,
+                "isFinished": false
+              },
+              {
+                "TypeNUm": 5,
+                "isFinished": false
+              }
+            ],
+            "floorNum": 3,
+            "isClear": false,
+            "storeRoom": {
+              "TypeNUm": 6,
+              "isFinished": false
+            }
+          }
+        }
       },
-      "currentFloorNum": 1,
-      "baseAttack": 30,
-      "baseDefense": 5,
-      "name": "hqy",
-      "HP": 113,
-      "maxHP": 150,
-      "attack": 30,
-      "defense": 5
+      "currentFloorNum": 3,
+      "baseAttack": 1000009,
+      "baseDefense": 111116,
+      "name": "coke",
+      "HP": 330,
+      "maxHP": 330
     }
-  },
-  {
-    "id": "cqut43870",
-    "username": "hhh",
-    "password": "hqy123",
-    "status": true
   }
 ]
