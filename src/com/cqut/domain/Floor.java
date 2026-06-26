@@ -693,4 +693,67 @@ public class Floor {
             System.out.println("怪物掉落了：" + lootItem.name);
         }
     }
+
+    private static void showChest(boolean isOpen) {
+        if (isOpen) {
+            System.out.println("      ╔════════════╗");
+            System.out.println("    ║    _______ ║ ║");
+            System.out.println("    ║   |      | ║ ║");
+            System.out.println("    ║   |______| ║ ║");
+            System.out.println("    ║  /      /  ║ ║");
+            System.out.println("    ║ /______/   ║ ║");
+            System.out.println("    ╚════════════╝\n");
+        } else {
+            System.out.println("      ╔════════════╗");
+            System.out.println("    ║  ╔══════╗  ║ ║");
+            System.out.println("    ║  ║      ║  ║ ║");
+            System.out.println("    ║  ║ ???? ║  ║ ║");
+            System.out.println("    ║  ║      ║  ║ ║");
+            System.out.println("    ║  ╚══════╝  ║ ║");
+            System.out.println("    ╚════════════╝\n");
+        }
+    }
+
+
+    private static Item getRandomRewardItem(Random random) {
+        List<Item> allItems = ItemFactory.getAllItems();
+
+        if (allItems.isEmpty()) {
+            return null;
+        }
+
+        // 先决定物品类型
+        int typeRoll = random.nextInt(100);
+        Item.ItemType targetType;
+
+        if (typeRoll < 30) {
+            // 30% 金币
+            targetType = Item.ItemType.GOLD;
+        } else if (typeRoll < 70) {
+            // 40% 药水
+            targetType = Item.ItemType.POTION;
+        } else if (typeRoll < 85) {
+            // 15% 武器
+            targetType = Item.ItemType.WEAPON;
+        } else {
+            // 15% 防具
+            targetType = Item.ItemType.ARMOR;
+        }
+
+        // 筛选出该类型的所有物品
+        List<Item> typeItems = new ArrayList<>();
+        for (Item item : allItems) {
+            if (item.type == targetType) {
+                typeItems.add(item);
+            }
+        }
+
+        // 如果该类型没有物品，返回第一个物品
+        if (typeItems.isEmpty()) {
+            return allItems.get(0);
+        }
+
+        // 从该类型中随机选择一个
+        return typeItems.get(random.nextInt(typeItems.size()));
+    }
 }
