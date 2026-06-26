@@ -2,7 +2,9 @@ package com.cqut.domain;
 
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
 
 public class Floor {
     private Room[] rooms;
@@ -20,22 +22,25 @@ public class Floor {
     }
     
     public void setRooms() {
-        rooms = new Room[10];
+        rooms = new Room[10]; // 初始化房间数
         Random random = new Random();
-
+        
+        // 房间类型定义1=战斗, 2=奖励, 3=boss, 4=剧情, 5=空房间
         int[] roomTypes = new int[10];
         
-
+        // boss房间
         int bossIndex = random.nextInt(10);
         roomTypes[bossIndex] = 3;
-
+        
+        // 剧情房间
         int storyIndex;
         do {
             storyIndex = random.nextInt(10);
         } while (storyIndex == bossIndex);
         roomTypes[storyIndex] = 4;
-
-        int battleCount = random.nextInt(3) + 1;
+        
+        // 战斗房间，随机生�?-3个战斗房�?
+        int battleCount = random.nextInt(3) + 1; // 1-3个战斗房�?
         int placedBattle = 0;
         while (placedBattle < battleCount) {
             int index = random.nextInt(10);
@@ -44,7 +49,8 @@ public class Floor {
                 placedBattle++;
             }
         }
-
+        
+        // 4. 奖励房间(类型2)至多3个，随机生成0-3�?
         int rewardCount = random.nextInt(4);
         int placedReward = 0;
         while (placedReward < rewardCount) {
@@ -54,7 +60,8 @@ public class Floor {
                 placedReward++;
             }
         }
-
+        
+        // 5. 剩余房间填为空房�?
         for (int i = 0; i < 10; i++) {
             if (roomTypes[i] == 0) {
                 roomTypes[i] = 5;
@@ -79,7 +86,7 @@ public class Floor {
             }
         }
 
-        if (floorNum%3==0){
+        if (floorNum%2==0){
             storeRoom=new Room(6);
         }
     }
@@ -197,7 +204,7 @@ public class Floor {
                     playerTurn(floor,player, enemy,wins);
                     if(!enemy.isAlive()){
                         System.out.println("你击杀了"+enemy.name);
-                        handleLootDrop(player,enemy);
+                        wins++;
                         isFinished = true;
                         return;
                     }
@@ -217,7 +224,94 @@ public class Floor {
             }else if (TypeNUm==5){
                 isFinished = true;
             }else if (TypeNUm==6){
+                // 商店房间逻辑
+                List<Item> shopItems = new ArrayList<>();
+                Random random = new Random();
 
+                // 生成商店物品
+                List<Item> allItems = ItemFactory.getAllItems();
+                for (Item item : allItems) {
+                    if (item.id == 13) {
+                        continue;
+                    }
+
+                    if (item.type == Item.ItemType.POTION && random.nextInt(100) < 60) {
+                        shopItems.add(item);
+                    } else if ((item.type == Item.ItemType.WEAPON || item.type == Item.ItemType.ARMOR)
+                               && random.nextInt(100) < 30) {
+                        shopItems.add(item);
+                    }
+                }
+
+                if (shopItems.isEmpty()) {
+                    shopItems.add(ItemFactory.getItemById(9));
+                    shopItems.add(ItemFactory.getItemById(1));
+                }
+
+                // 打开商店
+                System.out.println("\n========== 商店 ==========");
+                System.out.println("欢迎来到神秘商店！");
+                System.out.println("当前金币: " + player.getGold() + "G\n");
+
+                // 显示商品列表
+                System.out.println("可购买商品列表：");
+                int index = 1;
+                for (Item item : shopItems) {
+                    System.out.println(index + ". [ID:" + item.id + "] " + item.showInfo());
+                    index++;
+                }
+                System.out.println();
+
+                // 购买循环
+                Scanner sc = new Scanner(System.in);
+                while (true) {
+                    System.out.print("请输入要购买的物品ID（0退出）：");
+                    int choice = 0;
+                    try {
+                        choice = sc.nextInt();
+                    } catch (Exception e) {
+                        sc.next();
+                        System.out.println("无效输入！");
+                        continue;
+                    }
+
+                    if (choice == 0) {
+                        System.out.println("感谢光临！");
+                        break;
+                    }
+
+                    // 购买物品
+                    Item targetItem = null;
+                    for (Item item : shopItems) {
+                        if (item.id == choice) {
+                            targetItem = item;
+                            break;
+                        }
+                    }
+
+                    if (targetItem == null) {
+                        System.out.println("商品不存在！");
+                        continue;
+                    }
+
+                    if (player.getGold() < targetItem.price) {
+                        System.out.println("金币不足！需要 " + targetItem.price + "G，当前拥有 " + player.getGold() + "G");
+                        continue;
+                    }
+
+                    if ((targetItem.type == Item.ItemType.WEAPON || targetItem.type == Item.ItemType.ARMOR)
+                        && player.hasItem(choice)) {
+                        System.out.println("你已经拥有该装备！");
+                        continue;
+                    }
+
+                    player.addGold(-targetItem.price);
+                    player.addItem(targetItem, 1);
+                    System.out.println("成功购买 " + targetItem.name + "！花费 " + targetItem.price + "G，剩余 " + player.getGold() + "G");
+                }
+                System.out.println("=========================\n");
+
+                isFinished = true;
             }
         }
         
@@ -423,24 +517,5 @@ public class Floor {
             }
         }
     }
-    public static void handleLootDrop(Hero player, Enemy enemy) {
-        Random random = new Random();
-        double dropRate = 0.3;
-        if (random.nextDouble() > dropRate) {
-            return;
-        }
-        int itemId = random.nextInt(12) + 1;
-        Item lootItem = ItemFactory.getItemById(itemId);
 
-        if (lootItem == null) {
-            return;
-        }
-        if (itemId >= 9 && itemId <= 12) {
-            player.addItem(lootItem, 1);
-            System.out.println("怪物掉落了：" + lootItem.name + " x1");
-        } else {
-            player.addItem(lootItem, 1);
-            System.out.println("怪物掉落了：" + lootItem.name);
-        }
-    }
 }

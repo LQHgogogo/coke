@@ -25,9 +25,6 @@ public class TextGame {
             player.currentFloorNum = 1;
             System.out.println("角色创建成功");
             count = 1;
-            
-            player.addItem(new Item(13, "金币", Item.ItemType.POTION, "游戏货币", 9999, 0, 0, 0, 0), 100);
-            System.out.println("获得初始资金：100G");
         } else {
             player = user.getHero();
             head = player.headFloor;
@@ -76,6 +73,20 @@ public class TextGame {
                         while(true){
                             current.showRoomStatus();
 
+                            boolean allExplored = true;
+                            for (int i = 0; i < current.getRooms().length; i++){
+                                if (current.getRooms()[i].getTypeNum() != 5 && !current.getRooms()[i].isFinished()){
+                                    allExplored = false;
+                                    break;
+                                }
+                            }
+
+                            if (allExplored){
+                                System.out.println("本层所有房间已探索完成，自动进入下一层！");
+                                count++;
+                                break;
+                            }
+
                             if (current.isClear()){
                                 System.out.println("BOSS已击败！你可以：");
                                 System.out.println("1.进入下一层");
@@ -101,16 +112,17 @@ public class TextGame {
                                 System.out.println("无效房间号，请输入 1-" + maxRoom + " 之间的数字：");
                                 roomChoice = getValidInput(sc, 1, maxRoom);
                             }
+
+                            current.getRooms()[roomChoice - 1].Trigger(current, player, enemies);
                             if (current.getStoreRoom() != null && roomChoice == roomCount + 1){
                                 current.getStoreRoom().Trigger(current, player, enemies);
                                 continue;
                             }
-                            current.getRooms()[roomChoice - 1].Trigger(current, player, enemies);
                         }
                         break;
 
                     case 2:
-                        System.out.println("请选择楼层(当前可选择层数1-" + count + ") ：");
+                        System.out.println("请选择楼层：");
                         int floorChoice = sc.nextInt();
 
                         if (floorChoice < 1 || floorChoice > count){
@@ -151,7 +163,7 @@ public class TextGame {
 
                     case 5:
                         System.out.println("游戏结束，已保存进度");
-                        FileManager.saveUser(list,"userdata.json");
+                        FileManager.saveUser(list, FileManager.USER_DATA_PATH);
                         return;
                     default:
                         System.out.println("无效输入");
