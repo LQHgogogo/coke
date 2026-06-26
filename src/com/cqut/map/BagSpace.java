@@ -91,11 +91,26 @@ public class BagSpace
                             {
                                 this.equipThing(player.getBagItem(choice - 1), player);
                                 System.out.println("您已装备“" + player.getBagItem(choice - 1).getName() + "“");
+                                if (player.getBagItem(choice - 1).getId() - 100 < 100)
+                                {
+                                    System.out.println("当前攻击值为" + player.getAttack());
+                                }
+                                else
+                                {
+                                    System.out.println("当前防御值为" + player.getDefense());
+                                }
                             }
-                            else if ((player.getBagItem(choice - 1).getId() - 300) > 100)
+                            else if ((player.getBagItem(choice - 1).getId() - 300) < 100)
                             {
-                                player.addSkill(player.getBagItem(choice - 1).getSkill());
                                 System.out.println("恭喜！您学会了“" + player.getBagItem(choice - 1).getSkill() + "”");
+                                if (player.getBagItem(choice - 1).isActiveSkill())
+                                {
+                                    player.addSkill(player.getBagItem(choice - 1).getSkill());
+                                }
+                                else
+                                {
+                                    player.getBagItem(choice - 1).setSkill(player);
+                                }
                             }
                             else
                             {
@@ -142,7 +157,7 @@ public class BagSpace
             System.out.println("\n");
             if(player.getWeapon() == null)
             {
-                System.out.println("当前武器为" + player.getWeapon());
+                System.out.println("当前未装备武器");
             }
             else
             {
@@ -150,7 +165,7 @@ public class BagSpace
             }
             if (player.getArmor() == null)
             {
-                System.out.println("当前护具为" +  player.getArmor());
+                System.out.println("当前未装备护具");
             }
             else
             {

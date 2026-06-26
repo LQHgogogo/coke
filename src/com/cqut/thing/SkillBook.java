@@ -1,6 +1,8 @@
 package com.cqut.thing;
 
-public class SkillBook extends BagItem
+import com.cqut.domain.Hero;
+
+public abstract class SkillBook extends BagItem
 {
     public SkillBook()
     {}
@@ -15,4 +17,6 @@ public class SkillBook extends BagItem
     {
         this.skill = skill;
     }
+
+    public abstract void setSkill(Hero player);
 }

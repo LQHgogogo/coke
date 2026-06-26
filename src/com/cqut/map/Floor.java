@@ -46,8 +46,9 @@ public class Floor
         }
     }
 
-    public void choose(Hero player)                     //循环选择当前操作
+    public void choose(Hero player, int level)                     //循环选择当前操作
     {
+        System.out.println(level);
         BagSpace bagSpace = new BagSpace(player);
         boolean action = true;
         while (action)

@@ -197,12 +197,12 @@ public class Hero extends  Character
         return bag.get(index);
     }
 
-    public void setWeapon(BagItem bagItem)       //添加武器
+    public void setWeapon(BagItem bagItem)       //设置武器
     {
         this.weapon = bagItem;
     }
 
-    public void  setArmor(BagItem bagItem)           //添加装备
+    public void  setArmor(BagItem bagItem)           //设置装备
     {
         this.armor = bagItem;
     }

@@ -1,5 +1,7 @@
 package com.cqut.thing;
 
+import com.cqut.domain.Hero;
+
 public class BagItem
 {
     private int count;
@@ -11,6 +13,7 @@ public class BagItem
     protected String name;
     protected String description;
     protected int maxCount;
+    protected boolean activeSkill;
 
 
     public BagItem()
@@ -123,4 +126,18 @@ public class BagItem
     {
         return this.maxCount;
     }
+
+    public boolean isActiveSkill()
+    {
+        return this.activeSkill;
+    }
+
+    public void setActiveSkill(boolean activeSkill)
+    {
+        this.activeSkill = activeSkill;
+    }
+
+    public void setSkill(Hero player)
+    {}
+
 }

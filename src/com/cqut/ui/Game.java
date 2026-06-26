@@ -65,7 +65,7 @@ public class Game                                   // 框架编写完成，已�
                         }
                         break;
                     case 2:
-                        level[numOfLevel].choose(player);
+                        level[numOfLevel].choose(player,numOfLevel);
                         break;
                     case 3:
                         if (numOfLevel != 8 && level[numOfLevel].isFinished())

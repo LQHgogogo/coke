@@ -6,7 +6,10 @@ import com.cqut.enemy.Enemy_Normal_Assassin;
 import com.cqut.enemy.Enemy_Normal_Mage;
 import com.cqut.enemy.Enemy_Normal_Soldier;
 import com.cqut.enemy.Enemy_Normal_Tank;
+import com.cqut.thing.Armor_ironArmor;
 import com.cqut.thing.Drug_normalMedicine;
+import com.cqut.thing.SkillBook_block;
+import com.cqut.thing.Weapon_rustySword;
 
 public class WarehouseRoom extends Room
 {
@@ -40,21 +43,41 @@ public class WarehouseRoom extends Room
 
     public void seek(Hero player, int level)
     {
+        System.out.println(level);
         System.out.println("发现物品：");                                 //简单的物品搜查逻辑
         if (level <= 3)
         {
-            System.out.println("1.急救包");
+            System.out.println("急救包");
             player.addBagItem(new Drug_normalMedicine(), 1);
         }
         else if (level <= 7)
         {
-            System.out.println("1.急救包*2");
+            System.out.println("急救包*2");
             player.addBagItem(new Drug_normalMedicine(), 2);
         }
         else
         {
-            System.out.println("1.急救包*3");
+            System.out.println("急救包*3");
             player.addBagItem(new Drug_normalMedicine(), 3);
+        }
+        if (level == 0)
+        {
+            int thingValue = (int) (Math.random() * 3);
+            switch (thingValue)
+            {
+                case 0:
+                    System.out.println("基础格挡要领");
+                    player.addBagItem(new SkillBook_block(), 1);
+                    break;
+                case 1:
+                    System.out.println("生锈的剑");
+                    player.addBagItem(new Weapon_rustySword(), 1);
+                    break;
+                case 2:
+                    System.out.println("铁甲");
+                    player.addBagItem(new Armor_ironArmor(), 1);
+                    break;
+            }
         }
         this.finishRoom();
     }
