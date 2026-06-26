@@ -260,7 +260,11 @@ public class Floor {
                 }
                 System.out.println("=========================\n");
             }else if (TypeNUm==3) {
-                
+                boolean triggered = StoryManager.triggerStory(player, floor);
+                isFinished = true;
+                if (player.storyProgress >= StoryManager.STORY_COMPLETE) {
+                    floor.setClear(true);
+                }
             }else if (TypeNUm==4) {
                 System.out.println("你进入了BOSS房间！");
                 Random random = new Random();
