@@ -191,7 +191,7 @@ public class Floor {
                 while(player.isAlive() && enemy.isAlive()){
                     System.out.println(floor.getBlood(player.name, player.HP, player.maxHP));
                     System.out.println(floor.getBlood(enemy.name, enemy.HP, enemy.maxHP));
-                    playerTurn(player, enemy,wins);
+                    playerTurn(floor,player, enemy,wins);
                     if(!enemy.isAlive()){
                         System.out.println("你击杀了"+enemy.name);
                         wins++;
@@ -239,13 +239,43 @@ public class Floor {
         public void setFinished(boolean finished) {
             this.isFinished = finished;
         }
-    } public static void playerTurn(Hero player, Enemy enemy,int wins){
+    }
+    public static void playerTurn(Floor floor,Hero player, Enemy enemy,int wins){
         System.out.println("===你的回合===");
+        Scanner sc = new Scanner(System.in);
+        boolean potionUsed = false;
+        System.out.println("是否使用药水？（1-是/2-否）");
+        int potionChoice=getValidInput(sc,1,2);
+        if (potionChoice==1){
+            ArrayList<Integer> availablePotions = new ArrayList<>();
+            for (int i=9;i<=12;i++){
+                if (player.hasItem(i)){
+                    availablePotions.add(i);
+                }
+            }
+            if(availablePotions.isEmpty()){
+                System.out.println("你没有可用的药水");
+            }else{
+                System.out.println("请选择药水：");
+                for (int i=0;i<availablePotions.size();i++){
+                    Item potion = ItemFactory.getItemById(availablePotions.get(i));
+                    int count = player.getItemCount(availablePotions.get(i));
+                    System.out.println((i+1)+"."+potion.name+" 数量："+count);
+                }
+                int selectedPotionIndex = getValidInput(sc,1,availablePotions.size())-1;
+                int selectedPotionId = availablePotions.get(selectedPotionIndex);
+                player.usePotion(selectedPotionId);
+                potionUsed = true;
+                System.out.println(floor.getBlood(player.name, player.HP, player.maxHP));
+                System.out.println(floor.getBlood(enemy.name, enemy.HP, enemy.maxHP));
+            }
+        }else{
+            System.out.println("你选择不使用药水");
+        }
         System.out.println("请选择技能：");
         for (int i=0;i<player.skillList.size();i++){
             System.out.println((i+1)+"."+player.skillList.get(i)+" ");
         }
-        Scanner sc = new Scanner(System.in);
         int input = -1;
         while (true) {
             if (sc.hasNextInt()) {
