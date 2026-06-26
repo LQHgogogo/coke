@@ -2,6 +2,7 @@ package com.cqut.domain;
 
 public class Enemy extends  Character{
     public String skill;
+    public String skill2;
     public boolean defending;
 
     public Enemy()
@@ -13,6 +14,13 @@ public class Enemy extends  Character{
     {
     	super(name,HP,attack,defense);
     	this.skill=skill;
+        this.skill2=null;
+    }
+    public Enemy(String name,int HP,int attack,int defense,String skill,String skill2)
+    {
+        super(name,HP,attack,defense);
+        this.skill=skill;
+        this.skill2=skill2;
     }
 
     @Override

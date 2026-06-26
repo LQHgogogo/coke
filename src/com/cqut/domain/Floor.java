@@ -182,7 +182,7 @@ public class Floor {
         }
         
         //触发房间探索交互功能1为战斗房间，2为奖励房间，3为剧情房间，4为楼层boss房，5为空房间,6为商店房�?
-        public void Trigger(Floor floor,Hero player, ArrayList<Enemy> enemies)
+        public void Trigger(Floor floor,Hero player, ArrayList<Enemy> enemies,ArrayList<Enemy> bosses)
         {
             if (TypeNUm==1){
                 System.out.println("你进入战斗房间");
@@ -212,8 +212,40 @@ public class Floor {
             }else if (TypeNUm==3) {
                 
             }else if (TypeNUm==4) {
-                isFinished = true;
-                floor.setClear(true);
+                System.out.println("你进入了BOSS房间！");
+                Random random = new Random();
+                Enemy boss = bosses.get(random.nextInt(bosses.size()));
+                System.out.println("你遇到了BOSS：" + boss.name);
+                System.out.println(boss.showStatus());
+
+                int wins = 0;
+                while(player.isAlive() && boss.isAlive()){
+                    System.out.println(floor.getBlood(player.name, player.HP, player.maxHP));
+                    System.out.println(floor.getBlood(boss.name, boss.HP, boss.maxHP));
+                    playerTurn(floor, player, boss, wins);
+
+                    if(!boss.isAlive()){
+                        System.out.println("你击败了BOSS：" + boss.name);
+                        handleLootDrop(player, boss);
+
+                        int expGain = random.nextInt(50) + 50;
+                        player.addExp(expGain);
+                        System.out.println("你获得了" + expGain + "点经验！");
+
+                        isFinished = true;
+                        floor.setClear(true);
+                        System.out.println("恭喜通关第" + floor.floorNum + "层！");
+                        return;
+                    }
+
+                    enemyTurn(boss, player);
+                    if(!player.isAlive()){
+                        System.out.println("你被BOSS " + boss.name + " 击败...");
+                        isFinished = true;
+                        return;
+                    }
+
+                }
             }else if (TypeNUm==5){
                 isFinished = true;
             }else if (TypeNUm==6){
@@ -382,6 +414,84 @@ public class Floor {
                 System.out.println(enemy.name+"使用了咒术——火，对我造成了"+demage4+"点伤害！");
                 player.takeDamage(demage4);
                 break;
+            case "暗丝缚魂":
+                System.out.println("敌人使用了暗丝缚魂");
+                int demage5=calculateDamage((int)(enemy.attack*1.6),player.defense);
+                System.out.println(enemy.name+"使用暗丝缚魂，对我造成了"+demage5+"点伤害！");
+                player.takeDamage(demage5);
+                break;
+            case "极寒冰封":
+                System.out.println("敌人使用了极寒冰封");
+                int demage6=calculateDamage((int)(enemy.attack*1.4),player.defense/2);
+                System.out.println(enemy.name+"使用极寒冰封，对我造成了"+demage6+"点伤害！");
+                player.takeDamage(demage6);
+                break;
+            case "雷霆奔袭":
+                System.out.println("敌人使用了雷霆奔袭");
+                int demage7=0;
+                for (int i=0;i<3;i++){
+                    demage7+=calculateDamage(enemy.attack/3, player.defense/2);
+                }
+                System.out.println(enemy.name+"使用雷霆奔袭，对我造成了"+demage7+"点伤害！");
+                player.takeDamage(demage7);
+                break;
+            case "腐根蚀骨":
+                System.out.println("敌人使用了腐根蚀骨");
+                int demage8=calculateDamage((int)(enemy.attack*1.5),player.defense-5);
+                System.out.println(enemy.name+"使用腐根蚀骨，对我造成了"+demage8+"点伤害！");
+                player.takeDamage(demage8);
+                break;
+            case "湮灭次元":
+                System.out.println("敌人使用了湮灭次元");
+                int demage9=calculateDamage((int)(enemy.attack*2),player.defense);
+                System.out.println(enemy.name+"使用湮灭次元，对我造成了"+demage9+"点伤害！");
+                player.takeDamage(demage9);
+                break;
+            case "烈焰横斩":
+                System.out.println("敌人使用了烈焰横斩");
+                int demage10=calculateDamage((int)(enemy.attack*1.7),player.defense);
+                System.out.println(enemy.name+"使用烈焰横斩，对我造成了"+demage10+"点伤害！");
+                player.takeDamage(demage10);
+                break;
+            case "毁灭吐息":
+                System.out.println("敌人使用了毁灭吐息");
+                int demage11=calculateDamage((int)(enemy.attack*1.9),player.defense);
+                System.out.println(enemy.name+"使用毁灭吐息，对我造成了"+demage11+"点伤害！");
+                player.takeDamage(demage11);
+                break;
+            case "神圣审判":
+                System.out.println("敌人使用了神圣审判");
+                int demage12=calculateDamage((int)(enemy.attack*1.5),player.defense/2);
+                System.out.println(enemy.name+"使用神圣审判，对我造成了"+demage12+"点伤害！");
+                player.takeDamage(demage12);
+                break;
+            case "死亡印记":
+                System.out.println("敌人使用了死亡印记");
+                int demage13=calculateDamage((int)(enemy.attack*2.2),player.defense);
+                System.out.println(enemy.name+"使用死亡印记，对我造成了"+demage13+"点伤害！");
+                player.takeDamage(demage13);
+                break;
+            case "天雷轰顶":
+                System.out.println("敌人使用了天雷轰顶");
+                int demage14=0;
+                for (int i=0;i<2;i++){
+                    demage14+=calculateDamage(enemy.attack/2, player.defense/2);
+                }
+                System.out.println(enemy.name+"使用天雷轰顶，对我造成了"+demage14+"点伤害！");
+                player.takeDamage(demage14);
+                break;
+            case "绝对零度":
+                System.out.println("敌人使用了绝对零度");
+                int demage15=calculateDamage((int)(enemy.attack*1.6),player.defense-3);
+                System.out.println(enemy.name+"使用绝对零度，对我造成了"+demage15+"点伤害！");
+                player.takeDamage(demage15);
+                break;
+            case "虚空破碎":
+                System.out.println("敌人使用了虚空破碎");
+                int demage16=calculateDamage((int)(enemy.attack*2.5),player.defense);
+                System.out.println(enemy.name+"使用虚空破碎，对我造成了"+demage16+"点伤害！");
+                player.takeDamage(demage16);
+                break;
         }
     }
 
@@ -425,6 +535,9 @@ public class Floor {
     }
     public static void handleLootDrop(Hero player, Enemy enemy) {
         Random random = new Random();
+        int expGain = random.nextInt(50) + 1;
+        player.addExp(expGain);
+        System.out.println("你获得了" + expGain + "点经验！");
         double dropRate = 0.3;
         if (random.nextDouble() > dropRate) {
             return;

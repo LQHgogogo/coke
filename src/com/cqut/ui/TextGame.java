@@ -44,6 +44,13 @@ public class TextGame {
         enemies.add(new Enemy("重装坦克",120,10,20,"举盾防御"));
         enemies.add(new Enemy("神秘法师",70,25,8,"咒术——火"));
 
+        ArrayList<Enemy> bosses = new ArrayList<Enemy>();
+        bosses.add(new Enemy("幽影蛛皇",140,35,15,"暗丝缚魂","剧毒吞噬"));
+        bosses.add(new Enemy("霜铠冰将",200,25,30,"极寒冰封","冰霜护甲"));
+        bosses.add(new Enemy("雷械巨核",150,40,18,"雷霆奔袭","电磁脉冲"));
+        bosses.add(new Enemy("枯瘴树灵",180,30,25,"腐根蚀骨","生命汲取"));
+        bosses.add(new Enemy("虚空魔神",130,45,13,"湮灭次元","空间扭曲"));
+        bosses.add(new Enemy("焚岩督军",190,35,28,"烈焰横斩","熔岩喷发"));
         Scanner sc = new Scanner(System.in);
         Floor current = head;
 
@@ -102,10 +109,10 @@ public class TextGame {
                                 roomChoice = getValidInput(sc, 1, maxRoom);
                             }
                             if (current.getStoreRoom() != null && roomChoice == roomCount + 1){
-                                current.getStoreRoom().Trigger(current, player, enemies);
+                                current.getStoreRoom().Trigger(current, player, enemies, bosses);
                                 continue;
                             }
-                            current.getRooms()[roomChoice - 1].Trigger(current, player, enemies);
+                            current.getRooms()[roomChoice - 1].Trigger(current, player, enemies, bosses);
                         }
                         break;
 

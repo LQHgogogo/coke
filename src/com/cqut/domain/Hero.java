@@ -134,6 +134,40 @@ public class Hero extends Character {
         updateStats();
     }
 
+    public void addExp(int exp) {
+        this.Exp += exp;
+        checkLevelUp();
+    }
+
+    private int getExpNeededForNextLevel() {
+        if (this.Lv == 1) {
+            return 100;
+        } else {
+            return 50 * (this.Lv + 1);
+        }
+    }
+
+    private void checkLevelUp() {
+        int expNeeded = getExpNeededForNextLevel();
+
+        while (this.Exp >= expNeeded) {
+            this.Lv++;
+            this.Exp -= expNeeded;
+
+            System.out.println("恭喜升级！当前等级：" + this.Lv);
+
+            this.maxHP += 10;
+            this.HP = this.maxHP;
+            this.baseAttack += 3;
+            this.baseDefense += 2;
+
+            updateStats();
+
+            expNeeded = getExpNeededForNextLevel();
+        }
+    }
+
+
     public void addItem(Item item, int count) {
         if (item.type == Item.ItemType.WEAPON || item.type == Item.ItemType.ARMOR) {
             addEquipment(item);
