@@ -36,7 +36,6 @@ public class StoryManager {
 
         // 剧情已完结
         if (progress >= STORY_COMPLETE) {
-            System.out.println("\n神域的故事已经落幕。这片残缺的螺旋迷宫中，只剩下寂静的回响。");
             return false;
         }
 

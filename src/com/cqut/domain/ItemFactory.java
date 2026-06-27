@@ -27,6 +27,10 @@ public class ItemFactory {
         itemDatabase.put(12, Item.createPotion(12, "超级生命药水", 200, 2, 150));
         
         itemDatabase.put(13, new Item(13, "金币", Item.ItemType.GOLD, "游戏货币", 9999, 0, 0, 0, 0));
+
+        itemDatabase.put(14, new Item(14, "旋风斩技能书", Item.ItemType.SKILL_BOOK, "习得技能：旋风斩", 1, 0, 0, 0, 0));
+        itemDatabase.put(15, new Item(15, "雷霆一击技能书", Item.ItemType.SKILL_BOOK, "习得技能：雷霆一击", 1, 0, 0, 0, 0));
+        itemDatabase.put(16, new Item(16, "圣光普照技能书", Item.ItemType.SKILL_BOOK, "习得技能：圣光普照", 1, 0, 0, 0, 0));
     }
 
     public static ArrayList<Item> getAllItems() {
@@ -34,7 +38,19 @@ public class ItemFactory {
     }
 
     public static Item getItemById(int id) {
-        return itemDatabase.get(id);
+        Item item = itemDatabase.get(id);
+        if (item != null) {
+            return item;
+        }
+        if (id > 1000) {
+            int baseId = id / 1000;
+            int tier = id % 1000;
+            Item baseItem = itemDatabase.get(baseId);
+            if (baseItem != null && baseItem.type == Item.ItemType.WEAPON) {
+                return Item.createTieredWeapon(baseItem, tier);
+            }
+        }
+        return null;
     }
 
     public static ArrayList<Item> getLootItems(int enemyLevel) {

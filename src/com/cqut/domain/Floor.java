@@ -9,6 +9,8 @@ public class Floor {
     private Room[] rooms;
     private int floorNum;
     private boolean isClear;
+    private boolean storyCleared;
+    private boolean bossCleared;
     private Room storeRoom;
     private Floor nextFloor;
 
@@ -16,8 +18,9 @@ public class Floor {
 
     public Floor(int floorNum) {
         this.floorNum = floorNum;
-        this.nextFloor=null;
-        setRooms();
+        this.nextFloor = null;
+        this.storyCleared = false;
+        this.bossCleared = false;
     }
     
     public void setRooms() {
@@ -156,11 +159,27 @@ public class Floor {
     }
 
     public boolean isClear() {
-        return isClear;
+        return storyCleared && bossCleared;
     }
 
     public void setClear(boolean clear) {
         isClear = clear;
+    }
+
+    public boolean isStoryCleared() {
+        return storyCleared;
+    }
+
+    public void setStoryCleared(boolean storyCleared) {
+        this.storyCleared = storyCleared;
+    }
+
+    public boolean isBossCleared() {
+        return bossCleared;
+    }
+
+    public void setBossCleared(boolean bossCleared) {
+        this.bossCleared = bossCleared;
     }
 
     public int getFloorNum() {
@@ -188,17 +207,16 @@ public class Floor {
             if (TypeNUm==1){
                 System.out.println("你进入战斗房间");
                 Random random = new Random();
-                Enemy enemy = new Enemy(enemies.get(random.nextInt(enemies.size())));
+                Enemy enemy = scaleEnemy(new Enemy(enemies.get(random.nextInt(enemies.size()))), floor.floorNum, false);
                 System.out.println("你遇到了"+enemy.name);
                 System.out.println(enemy.showStatus());
-                int wins=0;
                 while(player.isAlive() && enemy.isAlive()){
                     System.out.println(floor.getBlood(player.name, player.HP, player.maxHP));
                     System.out.println(floor.getBlood(enemy.name, enemy.HP, enemy.maxHP));
-                    playerTurn(floor,player, enemy,wins);
+                    playerTurn(floor, player, enemy);
                     if(!enemy.isAlive()){
                         System.out.println("你击杀了"+enemy.name);
-                        handleLootDrop(player,enemy);
+                        handleLootDrop(player, enemy, false);
                         isFinished = true;
                         return;
                     }
@@ -262,32 +280,38 @@ public class Floor {
             }else if (TypeNUm==3) {
                 boolean triggered = StoryManager.triggerStory(player, floor);
                 isFinished = true;
+
+                Random random = new Random();
+                int expGain = random.nextInt(30) + 10;
+                player.addExp(expGain);
+                System.out.println("剧情启迪，你获得了" + expGain + "点经验！");
+
                 if (player.storyProgress >= StoryManager.STORY_COMPLETE) {
-                    floor.setClear(true);
+                    System.out.println("你低头望向自己的手，紧握拳头，感觉到了力量的洗礼");
                 }
+                floor.setStoryCleared(true);
             }else if (TypeNUm==4) {
                 System.out.println("你进入了BOSS房间！");
                 Random random = new Random();
-                Enemy boss = new Enemy(bosses.get(random.nextInt(bosses.size())));
+                Enemy boss = scaleEnemy(new Enemy(bosses.get(random.nextInt(bosses.size()))), floor.floorNum, true);
                 System.out.println("你遇到了BOSS：" + boss.name);
                 System.out.println(boss.showStatus());
 
-                int wins = 0;
                 while(player.isAlive() && boss.isAlive()){
                     System.out.println(floor.getBlood(player.name, player.HP, player.maxHP));
                     System.out.println(floor.getBlood(boss.name, boss.HP, boss.maxHP));
-                    playerTurn(floor, player, boss, wins);
+                    playerTurn(floor, player, boss);
 
                     if(!boss.isAlive()){
                         System.out.println("你击败了BOSS：" + boss.name);
-                        handleLootDrop(player, boss);
+                        handleLootDrop(player, boss, true);
 
                         int expGain = random.nextInt(50) + 50;
                         player.addExp(expGain);
                         System.out.println("你获得了" + expGain + "点经验！");
 
                         isFinished = true;
-                        floor.setClear(true);
+                        floor.setBossCleared(true);
                         System.out.println("恭喜通关第" + floor.floorNum + "层！");
                         return;
                     }
@@ -415,7 +439,7 @@ public class Floor {
             this.isFinished = finished;
         }
     }
-    public static void playerTurn(Floor floor,Hero player, Enemy enemy,int wins){
+    public static void playerTurn(Floor floor, Hero player, Enemy enemy){
         System.out.println("===你的回合===");
         Scanner sc = new Scanner(System.in);
         boolean potionUsed = false;
@@ -466,14 +490,15 @@ public class Floor {
             }
         }
 
-        switch ( input){
-            case 0:
+        String selectedSkill = player.skillList.get(input);
+        switch (selectedSkill) {
+            case "普通攻击":
                 System.out.println("你选择了普通攻击");
                 int demage1 = calculateDamage(player.attack,enemy.defense);
                 System.out.println("你使用普通攻击对"+enemy.name+"，造成"+demage1+"点伤害！");
                 enemy.takeDamage(demage1);
                 break;
-            case 1:
+            case "强力一击":
                 if (player.HP>=10){
                     System.out.println("你选择了强力一击(那么力量的代价是什么呢——消耗10点生命)");
                     player.takeDamage(10);
@@ -487,12 +512,12 @@ public class Floor {
                     enemy.takeDamage(demage3);
                 }
                 break;
-            case 2:
+            case "生命汲取":
                 if (player.HP>=10){
                     System.out.println("你选择了生命汲取(绝望中的生机——消耗10点生命)");
                     player.takeDamage(10);
                     Random r=new Random();
-                    int heal = r.nextInt(30+(int)(wins*1.5))+1;
+                    int heal = r.nextInt(30 + (int)(player.Lv * 1.5)) + 1;
                     player.heal(heal);
                     System.out.println("你回复了"+heal+"点生命值！");
                 }else {
@@ -500,6 +525,40 @@ public class Floor {
                     int demage4=calculateDamage(player.attack,enemy.defense);
                     enemy.takeDamage(demage4);
                     System.out.println("你使用普通攻击对"+enemy.name+"，造成"+demage4+"点伤害！");
+                }
+                break;
+            case "旋风斩":
+                System.out.println("你选择了旋风斩");
+                int demage6 = calculateDamage((int)(player.attack * 1.5), enemy.defense);
+                System.out.println("你使用旋风斩对" + enemy.name + "，造成" + demage6 + "点伤害！");
+                enemy.takeDamage(demage6);
+                break;
+            case "雷霆一击":
+                if (player.HP >= 20) {
+                    System.out.println("你选择了雷霆一击(天雷奔涌——消耗20点生命)");
+                    player.takeDamage(20);
+                    int demage7 = calculateDamage((int)(player.attack * 2.5), enemy.defense);
+                    enemy.takeDamage(demage7);
+                    System.out.println("你使用雷霆一击对" + enemy.name + "，造成" + demage7 + "点伤害！");
+                } else {
+                    System.out.println("你的生命值不足，无法使用该技能，但使用普通攻击");
+                    int demage8 = calculateDamage(player.attack, enemy.defense);
+                    System.out.println("你使用普通攻击对" + enemy.name + "，造成" + demage8 + "点伤害！");
+                    enemy.takeDamage(demage8);
+                }
+                break;
+            case "圣光普照":
+                if (player.HP >= 5) {
+                    System.out.println("你选择了圣光普照(圣光庇护——消耗5点生命)");
+                    player.takeDamage(5);
+                    int heal2 = (int)(player.maxHP * 0.3);
+                    player.heal(heal2);
+                    System.out.println("圣光普照回复了" + heal2 + "点生命值！");
+                } else {
+                    System.out.println("你的生命值不足，无法使用该技能，但使用普通攻击");
+                    int demage9 = calculateDamage(player.attack, enemy.defense);
+                    System.out.println("你使用普通攻击对" + enemy.name + "，造成" + demage9 + "点伤害！");
+                    enemy.takeDamage(demage9);
                 }
                 break;
             default:
@@ -517,9 +576,11 @@ public class Floor {
         String action="普通攻击";
 
         Random r=new Random();
-        int randomNum = r.nextInt(2);
-        if (randomNum==1){
-            action= enemy.skill;
+        int randomNum = r.nextInt(3);
+        if (randomNum == 1) {
+            action = enemy.skill;
+        } else if (randomNum == 2 && enemy.skill2 != null) {
+            action = enemy.skill2;
         }
 
         switch (action){
@@ -633,7 +694,61 @@ public class Floor {
                 System.out.println(enemy.name+"使用虚空破碎，对我造成了"+demage16+"点伤害！");
                 player.takeDamage(demage16);
                 break;
+            case "剧毒吞噬":
+                System.out.println("敌人使用了剧毒吞噬");
+                int demage17=calculateDamage((int)(enemy.attack*1.6),player.defense/2);
+                System.out.println(enemy.name+"使用剧毒吞噬，对我造成了"+demage17+"点伤害！");
+                player.takeDamage(demage17);
+                break;
+            case "冰霜护甲":
+                System.out.println("敌人使用了冰霜护甲");
+                enemy.defending=true;
+                int healAmount=enemy.maxHP/10;
+                enemy.HP=Math.min(enemy.HP+healAmount,enemy.maxHP);
+                System.out.println(enemy.name+"已进入防御状态，并恢复了"+healAmount+"点生命！");
+                break;
+            case "电磁脉冲":
+                System.out.println("敌人使用了电磁脉冲");
+                int demage18=0;
+                for (int i=0;i<3;i++){
+                    demage18+=calculateDamage(enemy.attack/2,player.defense/3);
+                }
+                System.out.println(enemy.name+"使用电磁脉冲，对我造成了"+demage18+"点伤害！");
+                player.takeDamage(demage18);
+                break;
+            case "生命汲取":
+                System.out.println("敌人使用了生命汲取");
+                int demage19=calculateDamage((int)(enemy.attack*1.4),player.defense);
+                int stealHP=demage19/2;
+                enemy.HP=Math.min(enemy.HP+stealHP,enemy.maxHP);
+                System.out.println(enemy.name+"使用生命汲取，对我造成了"+demage19+"点伤害，并恢复了"+stealHP+"点生命！");
+                player.takeDamage(demage19);
+                break;
+            case "空间扭曲":
+                System.out.println("敌人使用了空间扭曲");
+                int demage20=calculateDamage((int)(enemy.attack*2.0),0);
+                System.out.println(enemy.name+"使用空间扭曲，无视防御，对我造成了"+demage20+"点伤害！");
+                player.takeDamage(demage20);
+                break;
+            case "熔岩喷发":
+                System.out.println("敌人使用了熔岩喷发");
+                int demage21=calculateDamage((int)(enemy.attack*2.0),player.defense/2);
+                System.out.println(enemy.name+"使用熔岩喷发，对我造成了"+demage21+"点伤害！");
+                player.takeDamage(demage21);
+                break;
         }
+    }
+
+    public static Enemy scaleEnemy(Enemy enemy, int floorNum, boolean isBoss) {
+        double hpMult = isBoss ? (1 + (floorNum - 1) * 0.25) : (1 + (floorNum - 1) * 0.25);
+        double atkMult = isBoss ? (1 + (floorNum - 1) * 0.15) : (1 + (floorNum - 1) * 0.2);
+        double defMult = isBoss ? (1 + (floorNum - 1) * 0.12) : (1 + (floorNum - 1) * 0.15);
+
+        enemy.maxHP = (int)(enemy.maxHP * hpMult);
+        enemy.HP = enemy.maxHP;
+        enemy.attack = (int)(enemy.attack * atkMult);
+        enemy.defense = (int)(enemy.defense * defMult);
+        return enemy;
     }
 
     public static int calculateDamage(int atack, int defense){
@@ -674,11 +789,21 @@ public class Floor {
             }
         }
     }
-    public static void handleLootDrop(Hero player, Enemy enemy) {
+    public static void handleLootDrop(Hero player, Enemy enemy, boolean isBoss) {
         Random random = new Random();
         int expGain = random.nextInt(50) + 1;
         player.addExp(expGain);
         System.out.println("你获得了" + expGain + "点经验！");
+
+        if (isBoss && random.nextDouble() <= 0.2) {
+            int skillBookId = random.nextInt(3) + 14;
+            Item skillBook = ItemFactory.getItemById(skillBookId);
+            if (skillBook != null) {
+                System.out.println("BOSS掉落了技能书：【" + skillBook.name + "】！");
+                player.addItem(skillBook, 1);
+            }
+        }
+
         double dropRate = 0.3;
         if (random.nextDouble() > dropRate) {
             return;
@@ -726,7 +851,6 @@ public class Floor {
             return null;
         }
 
-        // 先决定物品类型
         int typeRoll = random.nextInt(100);
         Item.ItemType targetType;
 

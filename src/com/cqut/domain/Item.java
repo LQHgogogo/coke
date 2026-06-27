@@ -11,12 +11,14 @@ public class Item {
     public int defenseBonus;
     public int healAmount;
     public int price;
+    public int tier;
 
     public enum ItemType {
         WEAPON("武器"),
         ARMOR("防具"),
         POTION("药品"),
-        GOLD("金币");
+        GOLD("金币"),
+        SKILL_BOOK("技能书");
 
         private final String typeName;
 
@@ -69,12 +71,34 @@ public class Item {
                        maxCount, 0, 0, healAmount, price);
     }
 
+    public static Item createTieredWeapon(Item baseWeapon, int newTier) {
+        int newId = baseWeapon.id * 1000 + newTier;
+        int scaledAttack = (int)(baseWeapon.attackBonus * (1.0 + newTier * 0.5));
+        int scaledPrice = baseWeapon.price * (newTier + 1);
+        String tierSuffix = newTier > 0 ? "+" + newTier : "";
+        Item result = new Item(newId, baseWeapon.name + tierSuffix, ItemType.WEAPON,
+                       "", 1, scaledAttack, 0, 0, scaledPrice);
+        result.tier = newTier;
+        return result;
+    }
+
+    public static int getBaseId(int itemId) {
+        return itemId > 1000 ? itemId / 1000 : itemId;
+    }
+
+    public static int getTier(int itemId) {
+        return itemId > 1000 ? itemId % 1000 : 0;
+    }
+
     public String showInfo() {
         StringBuilder sb = new StringBuilder();
         sb.append(name).append(" [").append(type.getTypeName()).append("]");
 
         switch (type) {
             case WEAPON:
+                if (tier > 0) {
+                    sb.append(" 阶").append(tier);
+                }
                 sb.append(" 攻击+").append(attackBonus);
                 break;
             case ARMOR:
@@ -82,6 +106,9 @@ public class Item {
                 break;
             case POTION:
                 sb.append(" 恢复").append(healAmount).append("HP");
+                break;
+            case SKILL_BOOK:
+                sb.append(" ").append(description);
                 break;
         }
 

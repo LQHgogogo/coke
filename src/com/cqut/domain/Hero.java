@@ -175,6 +175,10 @@ public class Hero extends Character {
 
 
     public void addItem(Item item, int count) {
+        if (item.type == Item.ItemType.SKILL_BOOK) {
+            learnSkill(item);
+            return;
+        }
         if (item.type == Item.ItemType.WEAPON || item.type == Item.ItemType.ARMOR) {
             addEquipment(item);
         } else {
@@ -182,13 +186,54 @@ public class Hero extends Character {
         }
     }
 
+    private void learnSkill(Item skillBook) {
+        String skillName = skillBook.description.replace("习得技能：", "");
+        if (skillList.contains(skillName)) {
+            System.out.println("你已经学会了该技能！");
+            return;
+        }
+        skillList.add(skillName);
+        System.out.println("使用技能书【" + skillBook.name + "】，习得技能：" + skillName + "！");
+    }
+
     private void addEquipment(Item equipment) {
         if (bag.containsKey(equipment.id)) {
-            System.out.println("你已经拥有该装备！");
+            if (equipment.type == Item.ItemType.WEAPON) {
+                synthesizeWeapon(equipment);
+            } else {
+                System.out.println("你已经拥有该装备！");
+            }
             return;
         }
         bag.put(equipment.id, 1);
         System.out.println("获得了 " + equipment.name + "！");
+    }
+
+    private void synthesizeWeapon(Item weapon) {
+        int currentTier = Item.getTier(weapon.id);
+        int baseId = Item.getBaseId(weapon.id);
+        int newTier = currentTier + 1;
+
+        Item baseWeapon = ItemFactory.getItemById(baseId);
+        if (baseWeapon == null) {
+            System.out.println("合成失败：基础武器数据不存在！");
+            return;
+        }
+
+        Item upgraded = Item.createTieredWeapon(baseWeapon, newTier);
+
+        if (equippedWeapon != null && equippedWeapon.id == weapon.id) {
+            equippedWeapon = null;
+        }
+
+        bag.remove(weapon.id);
+
+        System.out.println("装备合成：" + weapon.name + " + " + weapon.name + " → " + upgraded.name + "！");
+        System.out.println("  " + upgraded.showInfo());
+
+        addEquipment(upgraded);
+
+        updateStats();
     }
 
     private void addConsumable(Item consumable, int count) {

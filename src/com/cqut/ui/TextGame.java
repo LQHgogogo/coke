@@ -9,9 +9,9 @@ import java.util.Scanner;
 public class TextGame {
     public void start(ArrayList<User> list,User user) {
         String username = user.getUsername();
-        System.out.println("============================");
-        System.out.println("     "+username+"欢迎来到文字格斗游戏     ");
-        System.out.println("============================");
+        System.out.println("================================");
+        System.out.println("     "+username+"欢迎来到神域     ");
+        System.out.println("================================");
 
         restartGame:
         while (true) {
@@ -22,6 +22,7 @@ public class TextGame {
             player = creatCharacter(username);
             user.setHero(player);
             head = new Floor(1);
+            head.setRooms();
             player.headFloor = head;
             player.currentFloor = head;
             player.currentFloorNum = 1;
@@ -42,18 +43,18 @@ public class TextGame {
         System.out.println("拥有的技能： "+player.showSkill());
 
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-        enemies.add(new Enemy("初级士兵",80,15,10,"力拔山兮"));
-        enemies.add(new Enemy("敏捷刺客",60,20,5,"闪身连刺"));
-        enemies.add(new Enemy("重装坦克",120,10,20,"举盾防御"));
-        enemies.add(new Enemy("神秘法师",70,25,8,"咒术——火"));
+        enemies.add(new Enemy("初级士兵",100,22,12,"力拔山兮"));
+        enemies.add(new Enemy("敏捷刺客",70,30,6,"闪身连刺"));
+        enemies.add(new Enemy("重装坦克",150,14,18,"举盾防御"));
+        enemies.add(new Enemy("神秘法师",80,35,8,"咒术——火"));
 
         ArrayList<Enemy> bosses = new ArrayList<Enemy>();
-        bosses.add(new Enemy("幽影蛛皇",140,35,15,"暗丝缚魂","剧毒吞噬"));
-        bosses.add(new Enemy("霜铠冰将",200,25,30,"极寒冰封","冰霜护甲"));
-        bosses.add(new Enemy("雷械巨核",150,40,18,"雷霆奔袭","电磁脉冲"));
-        bosses.add(new Enemy("枯瘴树灵",180,30,25,"腐根蚀骨","生命汲取"));
-        bosses.add(new Enemy("虚空魔神",130,45,13,"湮灭次元","空间扭曲"));
-        bosses.add(new Enemy("焚岩督军",190,35,28,"烈焰横斩","熔岩喷发"));
+        bosses.add(new Enemy("幽影蛛皇",180,38,16,"暗丝缚魂","剧毒吞噬"));
+        bosses.add(new Enemy("霜铠冰将",250,28,22,"极寒冰封","冰霜护甲"));
+        bosses.add(new Enemy("雷械巨核",160,48,18,"雷霆奔袭","电磁脉冲"));
+        bosses.add(new Enemy("枯瘴树灵",220,32,20,"腐根蚀骨","生命汲取"));
+        bosses.add(new Enemy("虚空魔神",140,55,12,"湮灭次元","空间扭曲"));
+        bosses.add(new Enemy("焚岩督军",210,42,20,"烈焰横斩","熔岩喷发"));
         Scanner sc = new Scanner(System.in);
         Floor current = head;
 
@@ -62,7 +63,9 @@ public class TextGame {
             current = head;
             for (int i = 1; i < count; i++) {
                 if (current.getNextFloor() == null) {
-                    current.setNextFloor(new Floor(i + 1));
+                    Floor newFloor = new Floor(i + 1);
+                    newFloor.setRooms();
+                    current.setNextFloor(newFloor);
                 }
                 current = current.getNextFloor();
             }
@@ -88,7 +91,7 @@ public class TextGame {
                             current.showRoomStatus();
 
                             if (current.isClear()){
-                                System.out.println("BOSS已击败！你可以：");
+                                System.out.println("剧情与BOSS已通过！你可以：");
                                 System.out.println("1.进入下一层");
                                 System.out.println("2.继续探索本层");
                                 int choice = getValidInput(sc, 1, 2);
@@ -117,6 +120,8 @@ public class TextGame {
                             } else {
                                 current.getRooms()[roomChoice - 1].Trigger(current, player, enemies, bosses);
                             }
+
+                            System.out.println("----------------------------------");
 
                             if (!player.isAlive()) {
                                 System.out.println("\n你已死亡！");
@@ -232,14 +237,14 @@ public class TextGame {
         return  player;
     }
     
-    private void handleLoot(Hero player, Enemy enemy, int wins) {
+    private void handleLoot(Hero player, Enemy enemy) {
         Random random = new Random();
         
-        int goldReward = random.nextInt(20) + 10 + wins * 5;
+        int goldReward = random.nextInt(20) + 10 + player.Lv * 5;
         player.addItem(new Item(13, "金币", Item.ItemType.GOLD, "游戏货币", 9999, 0, 0, 0, 0), goldReward);
         System.out.println("获得金币：" + goldReward + "G");
         
-        int enemyLevel = wins + 1;
+        int enemyLevel = player.Lv;
         ArrayList<Item> possibleLoot = ItemFactory.getLootItems(enemyLevel);
         
         if (!possibleLoot.isEmpty() && random.nextInt(100) < 40) {
@@ -272,7 +277,7 @@ public class TextGame {
                 }
             } else {
                 System.out.println("无效输入，请输入数字：");
-                sc.next(); // 清除非法输入
+                sc.next();
             }
         }
     }
