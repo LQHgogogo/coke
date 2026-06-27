@@ -3,7 +3,6 @@ package com.cqut.ui;
 import com.cqut.domain.*;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 public class TextGame {

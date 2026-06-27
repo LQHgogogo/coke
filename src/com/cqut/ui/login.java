@@ -14,9 +14,9 @@ public class login {
         list = FileManager.loadUser(FileManager.USER_DATA_PATH);
 
         while (true) {
-            System.out.println("============================");
-            System.out.println("=     欢迎来到文字格斗游戏     =");
-            System.out.println("============================");
+            System.out.println("==================================");
+            System.out.println("=     欢迎来到神临组的文字RPG游戏     =");
+            System.out.println("==================================");
             System.out.println("请选择操作：1登录 2注册 3退出");
 
             Scanner sc = new Scanner(System.in);
