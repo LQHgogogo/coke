@@ -115,10 +115,14 @@ public class Floor {
         int count = 1;
         for (int i = 0; i < rooms.length; i++){
             if (rooms[i].getTypeNum() != 5){
+                String tag = "";
+                if (rooms[i].getTypeNum() == 4) {
+                    tag = "【BOSS】";
+                }
                 if (rooms[i].isFinished() == true){
-                    System.out.println("第" + floorNum + "层第" + count + "个房间：已探索");
+                    System.out.println("第" + floorNum + "层第" + count + "个房间" + tag + "：已探索");
                 }else{
-                    System.out.println("第" + floorNum + "层第" + count + "个房间：未探索");
+                    System.out.println("第" + floorNum + "层第" + count + "个房间" + tag + "：未探索");
                 }
                 count++;
             }
@@ -216,6 +220,8 @@ public class Floor {
                     playerTurn(floor, player, enemy);
                     if(!enemy.isAlive()){
                         System.out.println("你击杀了"+enemy.name);
+                        player.heal((int)(player.maxHP * 0.3));
+                        System.out.println("你恢复了" + (int)(player.maxHP * 0.3) + "点生命值！");
                         handleLootDrop(player, enemy, false);
                         isFinished = true;
                         return;
@@ -499,9 +505,10 @@ public class Floor {
                 enemy.takeDamage(demage1);
                 break;
             case "强力一击":
-                if (player.HP>=10){
-                    System.out.println("你选择了强力一击(那么力量的代价是什么呢——消耗10点生命)");
-                    player.takeDamage(10);
+                if (player.HP > player.maxHP * 0.05){
+                    int cost1 = (int)(player.maxHP * 0.05);
+                    System.out.println("你选择了强力一击(那么力量的代价是什么呢——消耗" + cost1 + "点生命)");
+                    player.takeDamage(cost1);
                     int demage2 = calculateDamage(player.attack*2,enemy.defense);
                     enemy.takeDamage(demage2);
                     System.out.println("你使用强力一击对"+enemy.name+"，造成"+demage2+"点伤害！");
@@ -534,9 +541,10 @@ public class Floor {
                 enemy.takeDamage(demage6);
                 break;
             case "雷霆一击":
-                if (player.HP >= 20) {
-                    System.out.println("你选择了雷霆一击(天雷奔涌——消耗20点生命)");
-                    player.takeDamage(20);
+                if (player.HP > player.maxHP * 0.1) {
+                    int cost2 = (int)(player.maxHP * 0.1);
+                    System.out.println("你选择了雷霆一击(天雷奔涌——消耗" + cost2 + "点生命)");
+                    player.takeDamage(cost2);
                     int demage7 = calculateDamage((int)(player.attack * 2.5), enemy.defense);
                     enemy.takeDamage(demage7);
                     System.out.println("你使用雷霆一击对" + enemy.name + "，造成" + demage7 + "点伤害！");
@@ -740,9 +748,9 @@ public class Floor {
     }
 
     public static Enemy scaleEnemy(Enemy enemy, int floorNum, boolean isBoss) {
-        double hpMult = isBoss ? (1 + (floorNum - 1) * 0.25) : (1 + (floorNum - 1) * 0.25);
-        double atkMult = isBoss ? (1 + (floorNum - 1) * 0.15) : (1 + (floorNum - 1) * 0.2);
-        double defMult = isBoss ? (1 + (floorNum - 1) * 0.12) : (1 + (floorNum - 1) * 0.15);
+        double hpMult = isBoss ? (1 + (floorNum - 1) * 0.12) : (1 + (floorNum - 1) * 0.25);
+        double atkMult = isBoss ? (1 + (floorNum - 1) * 0.06) : (1 + (floorNum - 1) * 0.2);
+        double defMult = isBoss ? (1 + (floorNum - 1) * 0.04) : (1 + (floorNum - 1) * 0.15);
 
         enemy.maxHP = (int)(enemy.maxHP * hpMult);
         enemy.HP = enemy.maxHP;

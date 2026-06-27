@@ -21,10 +21,10 @@ public class ItemFactory {
         itemDatabase.put(7, Item.createArmor(7, "钢甲", 15, 200));
         itemDatabase.put(8, Item.createArmor(8, "圣骑士铠甲", 25, 450));
         
-        itemDatabase.put(9, Item.createPotion(9, "小型生命药水", 30, 5, 20));
-        itemDatabase.put(10, Item.createPotion(10, "中型生命药水", 60, 5, 40));
-        itemDatabase.put(11, Item.createPotion(11, "大型生命药水", 100, 3, 70));
-        itemDatabase.put(12, Item.createPotion(12, "超级生命药水", 200, 2, 150));
+        itemDatabase.put(9, Item.createPotion(9, "小型生命药水", 20, 5, 20));
+        itemDatabase.put(10, Item.createPotion(10, "中型生命药水", 30, 5, 40));
+        itemDatabase.put(11, Item.createPotion(11, "大型生命药水", 40, 3, 70));
+        itemDatabase.put(12, Item.createPotion(12, "超级生命药水", 50, 2, 150));
         
         itemDatabase.put(13, new Item(13, "金币", Item.ItemType.GOLD, "游戏货币", 9999, 0, 0, 0, 0));
 

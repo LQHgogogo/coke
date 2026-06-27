@@ -295,9 +295,10 @@ public class Hero extends Character {
         }
 
         Item potion = ItemFactory.getItemById(itemId);
-        this.heal(potion.healAmount);
+        int healAmount = (int)(maxHP * potion.healAmount / 100.0);
+        this.heal(healAmount);
 
-        System.out.println("使用了 " + potion.name + "，恢复了 " + potion.healAmount + " 点生命值！");
+        System.out.println("使用了 " + potion.name + "，恢复了 " + healAmount + " 点生命值（" + potion.healAmount + "%）！");
         System.out.println("当前生命值：" + this.HP + "/" + this.maxHP);
 
         removeItem(itemId, 1);

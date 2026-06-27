@@ -1,0 +1,126 @@
+[
+  {
+    "id": "cqut35836",
+    "username": "测试号",
+    "password": "coke123",
+    "status": true,
+    "Hero": {
+      "skillList": [
+        "普通攻击",
+        "强力一击",
+        "生命汲取"
+      ],
+      "bag": {
+        "9": 1,
+        "12": 1,
+        "13": 100
+      },
+      "Lv": 3,
+      "Exp": 98,
+      "gold": 0,
+      "headFloor": {
+        "rooms": [
+          {
+            "TypeNUm": 1,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 1,
+            "isFinished": true
+          },
+          {
+            "TypeNUm": 4,
+            "isFinished": true
+          },
+          {
+            "TypeNUm": 1,
+            "isFinished": true
+          },
+          {
+            "TypeNUm": 3,
+            "isFinished": true
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          }
+        ],
+        "floorNum": 1,
+        "isClear": false,
+        "storyCleared": true,
+        "bossCleared": true,
+        "nextFloor": {
+          "rooms": [
+            {
+              "TypeNUm": 1,
+              "isFinished": true
+            },
+            {
+              "TypeNUm": 3,
+              "isFinished": false
+            },
+            {
+              "TypeNUm": 4,
+              "isFinished": true
+            },
+            {
+              "TypeNUm": 5,
+              "isFinished": false
+            },
+            {
+              "TypeNUm": 5,
+              "isFinished": false
+            },
+            {
+              "TypeNUm": 5,
+              "isFinished": false
+            },
+            {
+              "TypeNUm": 5,
+              "isFinished": false
+            },
+            {
+              "TypeNUm": 5,
+              "isFinished": false
+            },
+            {
+              "TypeNUm": 5,
+              "isFinished": false
+            },
+            {
+              "TypeNUm": 5,
+              "isFinished": false
+            }
+          ],
+          "floorNum": 2,
+          "isClear": false,
+          "storyCleared": false,
+          "bossCleared": true
+        }
+      },
+      "currentFloorNum": 2,
+      "storyProgress": 1,
+      "baseAttack": 36,
+      "baseDefense": 9,
+      "name": "测试号",
+      "HP": 170,
+      "maxHP": 170
+    }
+  }
+]

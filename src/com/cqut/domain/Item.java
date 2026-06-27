@@ -66,9 +66,9 @@ public class Item {
                        1, 0, defenseBonus, 0, price);
     }
 
-    public static Item createPotion(int id, String name, int healAmount, int maxCount, int price) {
-        return new Item(id, name, ItemType.POTION, "恢复 " + healAmount + " HP",
-                       maxCount, 0, 0, healAmount, price);
+    public static Item createPotion(int id, String name, int healPercent, int maxCount, int price) {
+        return new Item(id, name, ItemType.POTION, "恢复 " + healPercent + "% HP",
+                       maxCount, 0, 0, healPercent, price);
     }
 
     public static Item createTieredWeapon(Item baseWeapon, int newTier) {
@@ -105,7 +105,7 @@ public class Item {
                 sb.append(" 防御+").append(defenseBonus);
                 break;
             case POTION:
-                sb.append(" 恢复").append(healAmount).append("HP");
+                sb.append(" 恢复").append(healAmount).append("%HP");
                 break;
             case SKILL_BOOK:
                 sb.append(" ").append(description);

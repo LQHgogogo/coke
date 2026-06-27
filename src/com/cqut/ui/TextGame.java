@@ -30,7 +30,8 @@ public class TextGame {
             count = 1;
             
             player.addItem(new Item(13, "金币", Item.ItemType.POTION, "游戏货币", 9999, 0, 0, 0, 0), 100);
-            System.out.println("获得初始资金：100G");
+            player.addItem(new Item(9, "药品", Item.ItemType.POTION, "回血药品", 9999, 0, 0, 100, 0), 2);
+            System.out.println("获得初始资金：100G，2个小型药品");
         } else {
             player = user.getHero();
             head = player.headFloor;
@@ -43,18 +44,18 @@ public class TextGame {
         System.out.println("拥有的技能： "+player.showSkill());
 
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-        enemies.add(new Enemy("初级士兵",100,22,12,"力拔山兮"));
-        enemies.add(new Enemy("敏捷刺客",70,30,6,"闪身连刺"));
-        enemies.add(new Enemy("重装坦克",150,14,18,"举盾防御"));
-        enemies.add(new Enemy("神秘法师",80,35,8,"咒术——火"));
+        enemies.add(new Enemy("初级士兵",100,17,9,"力拔山兮"));
+        enemies.add(new Enemy("敏捷刺客",70,20,3,"闪身连刺"));
+        enemies.add(new Enemy("重装坦克",130,9,15,"举盾防御"));
+        enemies.add(new Enemy("神秘法师",75,23,5,"咒术——火"));
 
         ArrayList<Enemy> bosses = new ArrayList<Enemy>();
-        bosses.add(new Enemy("幽影蛛皇",180,38,16,"暗丝缚魂","剧毒吞噬"));
-        bosses.add(new Enemy("霜铠冰将",250,28,22,"极寒冰封","冰霜护甲"));
-        bosses.add(new Enemy("雷械巨核",160,48,18,"雷霆奔袭","电磁脉冲"));
-        bosses.add(new Enemy("枯瘴树灵",220,32,20,"腐根蚀骨","生命汲取"));
-        bosses.add(new Enemy("虚空魔神",140,55,12,"湮灭次元","空间扭曲"));
-        bosses.add(new Enemy("焚岩督军",210,42,20,"烈焰横斩","熔岩喷发"));
+        bosses.add(new Enemy("幽影蛛皇",130,28,10,"暗丝缚魂","剧毒吞噬"));
+        bosses.add(new Enemy("霜铠冰将",175,18,16,"极寒冰封","冰霜护甲"));
+        bosses.add(new Enemy("雷械巨核",135,29,12,"雷霆奔袭","电磁脉冲"));
+        bosses.add(new Enemy("枯瘴树灵",170,22,14,"腐根蚀骨","生命汲取"));
+        bosses.add(new Enemy("虚空魔神",120,30,5,"湮灭次元","空间扭曲"));
+        bosses.add(new Enemy("焚岩督军",160,26,13,"烈焰横斩","熔岩喷发"));
         Scanner sc = new Scanner(System.in);
         Floor current = head;
 
@@ -116,24 +117,32 @@ public class TextGame {
                                 roomChoice = getValidInput(sc, 1, maxRoom);
                             }
                             if (current.getStoreRoom() != null && roomChoice == roomCount + 1){
+                                if (current.getStoreRoom().isFinished()) {
+                                    System.out.println("该商店已探索");
+                                    continue;
+                                }
                                 current.getStoreRoom().Trigger(current, player, enemies, bosses);
                             } else {
+                                if (current.getRooms()[roomChoice - 1].isFinished()) {
+                                    System.out.println("该房间已探索");
+                                    continue;
+                                }
                                 current.getRooms()[roomChoice - 1].Trigger(current, player, enemies, bosses);
                             }
 
                             System.out.println("----------------------------------");
 
                             if (!player.isAlive()) {
+                                user.setHero(null);
+                                FileManager.saveUser(list, "userdata.json");
                                 System.out.println("\n你已死亡！");
                                 System.out.println("1.重新开始");
                                 System.out.println("2.退出游戏");
                                 int deathChoice = getValidInput(sc, 1, 2);
                                 if (deathChoice == 1) {
-                                    user.setHero(null);
-                                    break restartGame;
+                                    continue restartGame;
                                 } else {
                                     System.out.println("游戏结束，已保存进度");
-                                    FileManager.saveUser(list, "userdata.json");
                                     return;
                                 }
                             }
@@ -236,27 +245,6 @@ public class TextGame {
 
         return  player;
     }
-    
-    private void handleLoot(Hero player, Enemy enemy) {
-        Random random = new Random();
-        
-        int goldReward = random.nextInt(20) + 10 + player.Lv * 5;
-        player.addItem(new Item(13, "金币", Item.ItemType.GOLD, "游戏货币", 9999, 0, 0, 0, 0), goldReward);
-        System.out.println("获得金币：" + goldReward + "G");
-        
-        int enemyLevel = player.Lv;
-        ArrayList<Item> possibleLoot = ItemFactory.getLootItems(enemyLevel);
-        
-        if (!possibleLoot.isEmpty() && random.nextInt(100) < 40) {
-            Item lootItem = possibleLoot.get(random.nextInt(possibleLoot.size()));
-            int quantity = 1;
-            if (lootItem.type == Item.ItemType.POTION) {
-                quantity = random.nextInt(2) + 1;
-            }
-            player.addItem(lootItem, quantity);
-        }
-    }
-    
 
     public static int calculateDamage(int atack, int defense){
         int Demage=atack-defense;
