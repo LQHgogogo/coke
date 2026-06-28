@@ -258,15 +258,14 @@ public class Floor {
                     System.out.println("\n你获得了 " + expGained + " 点经验值！");
                     System.out.println("当前经验值：" + player.Exp);
 
+                    // 随机获得10-100金币
+                    int goldCount = random.nextInt(91) + 10;
+                    player.addGold(goldCount);
+                    System.out.println("你获得了 " + goldCount + " 个金币！");
 
                     Item rewardItem = getRandomRewardItem(random);
                     if (rewardItem != null) {
-                        if (rewardItem.type == Item.ItemType.GOLD) {
-                            // 金币特殊处理：获得10-100个
-                            int goldCount = random.nextInt(91) + 10;
-                            player.addItem(rewardItem, goldCount);
-                            System.out.println("你获得了 " + goldCount + " 个金币！");
-                        } else if (rewardItem.type == Item.ItemType.POTION) {
+                        if (rewardItem.type == Item.ItemType.POTION) {
                             // 生成随机数量
                             int potionCount = random.nextInt(1) + 1;
                             player.addItem(rewardItem, potionCount);
@@ -803,6 +802,10 @@ public class Floor {
         player.addExp(expGain);
         System.out.println("你获得了" + expGain + "点经验！");
 
+        int goldGain = random.nextInt(51) +(int)(20*(1+0.05*player.Lv));
+        player.addGold(goldGain);
+        System.out.println("你获得了" + goldGain + "个金币！");
+
         if (isBoss && random.nextDouble() <= 0.2) {
             int skillBookId = random.nextInt(3) + 14;
             Item skillBook = ItemFactory.getItemById(skillBookId);
@@ -862,9 +865,7 @@ public class Floor {
         int typeRoll = random.nextInt(100);
         Item.ItemType targetType;
 
-        if (typeRoll < 30) {
-            targetType = Item.ItemType.GOLD;
-        } else if (typeRoll < 70) {
+        if (typeRoll < 60) {
             targetType = Item.ItemType.POTION;
         } else if (typeRoll < 85) {
             targetType = Item.ItemType.WEAPON;

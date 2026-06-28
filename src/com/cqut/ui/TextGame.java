@@ -27,8 +27,8 @@ public class TextGame {
             player.currentFloorNum = 1;
             System.out.println("角色创建成功");
             count = 1;
-            
-            player.addItem(new Item(13, "金币", Item.ItemType.POTION, "游戏货币", 9999, 0, 0, 0, 0), 100);
+
+            player.addGold(100);
             player.addItem(new Item(9, "药品", Item.ItemType.POTION, "回血药品", 9999, 0, 0, 100, 0), 2);
             System.out.println("获得初始资金：100G，2个小型药品");
         } else {

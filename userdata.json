@@ -12,12 +12,11 @@
       ],
       "bag": {
         "9": 1,
-        "12": 1,
-        "13": 100
+        "12": 11
       },
       "Lv": 3,
       "Exp": 98,
-      "gold": 0,
+      "gold": 1000,
       "headFloor": {
         "rooms": [
           {
@@ -128,5 +127,79 @@
     "username": "zhou",
     "password": "zyb123",
     "status": true
+  },
+  {
+    "id": "cqut81550",
+    "username": "hqy123",
+    "password": "hqy123",
+    "status": true,
+    "Hero": {
+      "skillList": [
+        "普通攻击",
+        "强力一击",
+        "生命汲取"
+      ],
+      "bag": {
+        "9": 2
+      },
+      "Lv": 1,
+      "Exp": 0,
+      "gold": 100,
+      "headFloor": {
+        "rooms": [
+          {
+            "TypeNUm": 3,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 1,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 2,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 4,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          },
+          {
+            "TypeNUm": 5,
+            "isFinished": false
+          }
+        ],
+        "floorNum": 1,
+        "isClear": false,
+        "storyCleared": false,
+        "bossCleared": false
+      },
+      "currentFloorNum": 1,
+      "storyProgress": 0,
+      "baseAttack": 30,
+      "baseDefense": 0,
+      "name": "hqy123",
+      "HP": 200,
+      "maxHP": 200
+    }
   }
 ]

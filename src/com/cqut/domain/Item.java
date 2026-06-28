@@ -17,7 +17,6 @@ public class Item {
         WEAPON("武器"),
         ARMOR("防具"),
         POTION("药品"),
-        GOLD("金币"),
         SKILL_BOOK("技能书");
 
         private final String typeName;
