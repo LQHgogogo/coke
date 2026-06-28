@@ -5,12 +5,22 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.ArrayList;
 
 public class FileManager {
     public static final Gson gson=new  GsonBuilder().setPrettyPrinting().create();
 
-    public  static final String USER_DATA_PATH = "userdata.json";
+    private static final String DATA_DIR = System.getProperty("user.home") + File.separator + ".First_Project";
+    public static final String USER_DATA_PATH = DATA_DIR + File.separator + "userdata.json";
+
+    static {
+        try {
+            Files.createDirectories(Paths.get(DATA_DIR));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static void saveUser(ArrayList<User> users, String filePath) {
         try (FileWriter fw=new FileWriter(filePath)) {
