@@ -352,6 +352,17 @@ public class Hero extends Character {
 
 
 
+    public void showPlayerStatus() {
+        System.out.println("\n========== 玩家状态 ==========");
+        System.out.println("名称：" + name);
+        System.out.println("等级：" + Lv + "  |  经验：" + Exp);
+        System.out.println("生命：" + HP + " / " + maxHP);
+        System.out.println("攻击：" + attack + "  |  防御：" + defense);
+        System.out.println("金币：" + gold);
+        System.out.println("当前楼层：" + currentFloorNum);
+        System.out.println("==============================\n");
+    }
+
     public void showBag() {
         System.out.println("\n========== 背包 ==========");
         if (bag.isEmpty()) {

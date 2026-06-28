@@ -77,11 +77,12 @@ public class TextGame {
             while (true){
                 System.out.println("请选择操作：1.开始探索本层");
                 System.out.println("          2.选择楼层");
-                System.out.println("          3.查看背包");
-                System.out.println("          4.查看装备");
-                System.out.println("          5.退出并存档");
+                System.out.println("          3.查看状态");
+                System.out.println("          4.查看背包");
+                System.out.println("          5.查看装备");
+                System.out.println("          6.退出并存档");
                 
-                int input = getValidInput(sc, 1, 5);
+                int input = getValidInput(sc, 1, 6);
                 
                 switch (input){
                     case 1:
@@ -127,7 +128,7 @@ public class TextGame {
 
                             if (!player.isAlive()) {
                                 user.setHero(null);
-                                FileManager.saveUser(list, "userdata.json");
+                                FileManager.saveUser(list, FileManager.USER_DATA_PATH);
                                 System.out.println("\n你已死亡！");
                                 System.out.println("1.重新开始");
                                 System.out.println("2.退出游戏");
@@ -149,6 +150,10 @@ public class TextGame {
                         break floorMenu;
                         
                     case 3:
+                        player.showPlayerStatus();
+                        break;
+
+                    case 4:
                         player.showBag();
                         System.out.println("是否使用物品？(输入物品ID，或输入0取消)");
                         int useItemChoice = getValidInput(sc, 0, Integer.MAX_VALUE);
@@ -157,7 +162,7 @@ public class TextGame {
                         }
                         break;
                         
-                    case 4:
+                    case 5:
                         player.showEquipment();
                         System.out.println("是否更换装备？(1.卸下武器 2.卸下防具 3.从背包装备 0.取消)");
                         int equipChoice = getValidInput(sc, 0, 3);
@@ -177,9 +182,9 @@ public class TextGame {
                         }
                         break;
 
-                    case 5:
+                    case 6:
                         System.out.println("游戏结束，已保存进度");
-                        FileManager.saveUser(list,"userdata.json");
+                        FileManager.saveUser(list, FileManager.USER_DATA_PATH);
                         return;
                     default:
                         System.out.println("无效输入");

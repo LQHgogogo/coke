@@ -868,9 +868,9 @@ public class Floor {
         int typeRoll = random.nextInt(100);
         Item.ItemType targetType;
 
-        if (typeRoll < 60) {
+        if (typeRoll < 30) {
             targetType = Item.ItemType.POTION;
-        } else if (typeRoll < 85) {
+        } else if (typeRoll < 70) {
             targetType = Item.ItemType.WEAPON;
         } else {
             targetType = Item.ItemType.ARMOR;
