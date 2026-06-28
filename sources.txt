@@ -1,0 +1,12 @@
+﻿C:\Users\Asus\Desktop\JAVA\某不科学的Java游戏\coke\src\com\cqut\domain\Character.java
+C:\Users\Asus\Desktop\JAVA\某不科学的Java游戏\coke\src\com\cqut\domain\Enemy.java
+C:\Users\Asus\Desktop\JAVA\某不科学的Java游戏\coke\src\com\cqut\domain\FileManager.java
+C:\Users\Asus\Desktop\JAVA\某不科学的Java游戏\coke\src\com\cqut\domain\Floor.java
+C:\Users\Asus\Desktop\JAVA\某不科学的Java游戏\coke\src\com\cqut\domain\Hero.java
+C:\Users\Asus\Desktop\JAVA\某不科学的Java游戏\coke\src\com\cqut\domain\Item.java
+C:\Users\Asus\Desktop\JAVA\某不科学的Java游戏\coke\src\com\cqut\domain\ItemFactory.java
+C:\Users\Asus\Desktop\JAVA\某不科学的Java游戏\coke\src\com\cqut\domain\StoryManager.java
+C:\Users\Asus\Desktop\JAVA\某不科学的Java游戏\coke\src\com\cqut\domain\User.java
+C:\Users\Asus\Desktop\JAVA\某不科学的Java游戏\coke\src\com\cqut\ui\Access.java
+C:\Users\Asus\Desktop\JAVA\某不科学的Java游戏\coke\src\com\cqut\ui\login.java
+C:\Users\Asus\Desktop\JAVA\某不科学的Java游戏\coke\src\com\cqut\ui\TextGame.java

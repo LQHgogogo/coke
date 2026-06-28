@@ -101,19 +101,13 @@ public class TextGame {
                                 }
                             }
 
-                            System.out.println("请选择房间(-1退出本层探索)：");
+                            int maxRoom = current.getStoreRoom() != null ? roomCount + 1 : roomCount;
+                            System.out.println("请选择房间(1-" + maxRoom + "，-1退出本层探索)：");
 
-                            int roomChoice = sc.nextInt();
+                            int roomChoice = getValidInput(sc, -1, maxRoom);
                             if (roomChoice == -1){
                                 System.out.println("退出本层探索");
                                 break;
-                            }
-
-                            int maxRoom = current.getStoreRoom() != null ? roomCount + 1 : roomCount;
-
-                            if (roomChoice < 1 || roomChoice > maxRoom){
-                                System.out.println("无效房间号，请输入 1-" + maxRoom + " 之间的数字：");
-                                roomChoice = getValidInput(sc, 1, maxRoom);
                             }
                             if (current.getStoreRoom() != null && roomChoice == roomCount + 1){
                                 if (current.getStoreRoom().isFinished()) {
@@ -150,19 +144,14 @@ public class TextGame {
 
                     case 2:
                         System.out.println("请选择楼层(当前可选择层数1-" + count + ") ：");
-                        int floorChoice = sc.nextInt();
-
-                        if (floorChoice < 1 || floorChoice > count){
-                            System.out.println("无效楼层号，请输入 1-" + count + " 之间的数字：");
-                            floorChoice = getValidInput(sc, 1, count);
-                        }
+                        int floorChoice = getValidInput(sc, 1, count);
                         count = floorChoice;
                         break floorMenu;
                         
                     case 3:
                         player.showBag();
                         System.out.println("是否使用物品？(输入物品ID，或输入0取消)");
-                        int useItemChoice = sc.nextInt();
+                        int useItemChoice = getValidInput(sc, 0, Integer.MAX_VALUE);
                         if (useItemChoice > 0) {
                             player.usePotion(useItemChoice);
                         }
@@ -179,7 +168,7 @@ public class TextGame {
                         } else if (equipChoice == 3) {
                             System.out.println("选择要装备的物品（输入ID）：");
                             player.showBag();
-                            int itemId = sc.nextInt();
+                            int itemId = getValidInput(sc, 0, Integer.MAX_VALUE);
                             if (player.hasItem(itemId)) {
                                 player.equipItem(itemId);
                             } else {
@@ -220,19 +209,8 @@ public class TextGame {
 
         for (int i=0;i<attributes.length;i++){
             System.out.println("分配点数到"+attributes[i]+"（剩余点数："+point+"）：");
-            int input = sc.nextInt();
-            if (input<0){
-                System.out.println("无效输入，默认分配点数0");
-                input = 0;
-            }
-
-            if (input>point){
-                System.out.println("属性点不足，剩余点数全部分配到"+attributes[i]);
-                input = point;
-            }
-
+            int input = getValidInput(sc, 0, point);
             point -= input;
-
             values[i] = input;
         }
 
