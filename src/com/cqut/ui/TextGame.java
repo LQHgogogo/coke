@@ -43,18 +43,18 @@ public class TextGame {
         System.out.println("拥有的技能： "+player.showSkill());
 
         ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-        enemies.add(new Enemy("初级士兵",100,17,9,"力拔山兮"));
-        enemies.add(new Enemy("敏捷刺客",70,20,3,"闪身连刺"));
-        enemies.add(new Enemy("重装坦克",130,9,15,"举盾防御"));
-        enemies.add(new Enemy("神秘法师",75,23,5,"咒术——火"));
+        enemies.add(new Enemy("初级士兵",100,17,12,"力拔山兮"));
+        enemies.add(new Enemy("敏捷刺客",70,20,6,"闪身连刺"));
+        enemies.add(new Enemy("重装坦克",130,9,18,"举盾防御"));
+        enemies.add(new Enemy("神秘法师",75,23,8,"咒术——火"));
 
         ArrayList<Enemy> bosses = new ArrayList<Enemy>();
-        bosses.add(new Enemy("幽影蛛皇",130,28,10,"暗丝缚魂","剧毒吞噬"));
-        bosses.add(new Enemy("霜铠冰将",175,18,16,"极寒冰封","冰霜护甲"));
-        bosses.add(new Enemy("雷械巨核",135,29,12,"雷霆奔袭","电磁脉冲"));
-        bosses.add(new Enemy("枯瘴树灵",170,22,14,"腐根蚀骨","生命汲取"));
-        bosses.add(new Enemy("虚空魔神",120,30,5,"湮灭次元","空间扭曲"));
-        bosses.add(new Enemy("焚岩督军",160,26,13,"烈焰横斩","熔岩喷发"));
+        bosses.add(new Enemy("幽影蛛皇",130,28,13,"暗丝缚魂","剧毒吞噬"));
+        bosses.add(new Enemy("霜铠冰将",175,18,19,"极寒冰封","冰霜护甲"));
+        bosses.add(new Enemy("雷械巨核",135,29,15,"雷霆奔袭","电磁脉冲"));
+        bosses.add(new Enemy("枯瘴树灵",170,22,17,"腐根蚀骨","生命汲取"));
+        bosses.add(new Enemy("虚空魔神",120,30,9,"湮灭次元","空间扭曲"));
+        bosses.add(new Enemy("焚岩督军",160,26,16,"烈焰横斩","熔岩喷发"));
         Scanner sc = new Scanner(System.in);
         Floor current = head;
 

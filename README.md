@@ -86,7 +86,7 @@
 
 - **Java OOP**：继承（`Character` → `Hero`/`Enemy`）、封装、多态，类层次清晰
 - **Gson 序列化**：`Gson` 库实现 JSON 双向转换，`transient` 排除运行时计算字段
-- **文件 I/O**：`FileReader`/`FileWriter` 实现存档持久化，相对路径适配
+- **文件 I/O**：`FileReader`/`FileWriter` 实现存档持久化，存档固定存储在用户目录 `C:\Users\用户名\.First_Project\`
 - **随机生成**：`Random` 驱动楼层布局、怪物种类、掉落物品、奖励内容
 - **链表结构**：`Floor` 通过 `nextFloor` 指针构成单向链表，实现楼层递增
 - **控制流**：标签化 `break`/`continue` 实现多层循环跳出（楼层切换、死亡重开）
@@ -95,8 +95,30 @@
 ---
 
 ## 运行环境
+
 - JDK 25
 - IDEA
+
+## 打包与分发
+
+项目已使用 `jpackage` 打包为 Windows 可执行程序，无需安装 Java 即可运行。
+
+### 打包产物
+
+| 文件 | 路径 | 说明 |
+|------|------|------|
+| `First_Project.zip` | `build/First_Project.zip` | 一键部署包，解压即用 |
+
+### 分发步骤
+
+1. 将 `build/First_Project.zip` 发送给用户
+2. 用户解压到任意目录
+3. 双击 `First_Project.exe` 即可运行
+
+### 打包原理
+
+- `javac` 编译源码 → `jar` 打包 Fat JAR（含 Gson 依赖）→ `jpackage --type app-image --win-console` 生成含内嵌 JRE 的 EXE
+- 存档数据统一存储在 `C:\Users\用户名\.First_Project\userdata.json`，不受运行目录影响
 
 ## 日志
 

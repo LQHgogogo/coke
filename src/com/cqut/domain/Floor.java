@@ -220,8 +220,6 @@ public class Floor {
                     playerTurn(floor, player, enemy);
                     if(!enemy.isAlive()){
                         System.out.println("你击杀了"+enemy.name);
-                        player.heal((int)(player.maxHP * 0.3));
-                        System.out.println("你恢复了" + (int)(player.maxHP * 0.3) + "点生命值！");
                         handleLootDrop(player, enemy, false);
                         isFinished = true;
                         return;
@@ -251,28 +249,35 @@ public class Floor {
                     // 显示打开的宝箱图案
                     showChest(true);
 
-                    // 随机获得10-100经验值
                     Random random = new Random();
-                    int expGained = random.nextInt(91) + 10; // 10-100
-                    player.Exp += expGained;
-                    System.out.println("\n你获得了 " + expGained + " 点经验值！");
-                    System.out.println("当前经验值：" + player.Exp);
 
-                    // 随机获得10-100金币
-                    int goldCount = random.nextInt(91) + 10;
-                    player.addGold(goldCount);
-                    System.out.println("你获得了 " + goldCount + " 个金币！");
+                    // 15%概率宝箱为空
+                    if (random.nextInt(100) < 25) {
+                        System.out.println("\n宝箱里空空如也，什么也没有...");
+                        System.out.println("看来运气不太好呢！");
+                    } else {
+                        // 随机获得10-100经验值
+                        int expGained = random.nextInt(91) + 10; // 10-100
+                        player.Exp += expGained;
+                        System.out.println("\n你获得了 " + expGained + " 点经验值！");
+                        System.out.println("当前经验值：" + player.Exp);
 
-                    Item rewardItem = getRandomRewardItem(random);
-                    if (rewardItem != null) {
-                        if (rewardItem.type == Item.ItemType.POTION) {
-                            // 生成随机数量
-                            int potionCount = random.nextInt(1) + 1;
-                            player.addItem(rewardItem, potionCount);
-                            System.out.println("你获得了 " + potionCount + " 个" + rewardItem.name + "！");
-                        } else {
-                            player.addItem(rewardItem, 1);
-                            System.out.println("你获得了：" + rewardItem.name + "！");
+                        // 随机获得10-100金币
+                        int goldCount = random.nextInt(91) + 10;
+                        player.addGold(goldCount);
+                        System.out.println("你获得了 " + goldCount + " 个金币！");
+
+                        Item rewardItem = getRandomRewardItem(random);
+                        if (rewardItem != null) {
+                            if (rewardItem.type == Item.ItemType.POTION) {
+                                // 生成随机数量
+                                int potionCount = random.nextInt(1) + 1;
+                                player.addItem(rewardItem, potionCount);
+                                System.out.println("你获得了 " + potionCount + " 个" + rewardItem.name + "！");
+                            } else {
+                                player.addItem(rewardItem, 1);
+                                System.out.println("你获得了：" + rewardItem.name + "！");
+                            }
                         }
                     }
                     // 设置房间为已探索
@@ -447,7 +452,6 @@ public class Floor {
     public static void playerTurn(Floor floor, Hero player, Enemy enemy){
         System.out.println("===你的回合===");
         Scanner sc = new Scanner(System.in);
-        boolean potionUsed = false;
         System.out.println("是否使用药水？（1-是/2-否）");
         int potionChoice=getValidInput(sc,1,2);
         if (potionChoice==1){
@@ -469,7 +473,6 @@ public class Floor {
                 int selectedPotionIndex = getValidInput(sc,1,availablePotions.size())-1;
                 int selectedPotionId = availablePotions.get(selectedPotionIndex);
                 player.usePotion(selectedPotionId);
-                potionUsed = true;
                 System.out.println(floor.getBlood(player.name, player.HP, player.maxHP));
                 System.out.println(floor.getBlood(enemy.name, enemy.HP, enemy.maxHP));
             }
@@ -772,9 +775,9 @@ public class Floor {
         sb.append(name).append("【");
         for (int i = 0; i < 20; i++) {
             if (i < filled){
-                sb.append("⬛\uFE0F");
+                sb.append("=");
             }else {
-                sb.append("⬜\uFE0F");
+                sb.append("-");
             }
         }
         sb.append("】").append( HP).append("/"+maxHP).append(" HP");
@@ -806,7 +809,7 @@ public class Floor {
         player.addGold(goldGain);
         System.out.println("你获得了" + goldGain + "个金币！");
 
-        if (isBoss && random.nextDouble() <= 0.2) {
+        if (isBoss && random.nextDouble() <= 0.25) {
             int skillBookId = random.nextInt(3) + 14;
             Item skillBook = ItemFactory.getItemById(skillBookId);
             if (skillBook != null) {

@@ -14,9 +14,9 @@ public class login {
         list = FileManager.loadUser(FileManager.USER_DATA_PATH);
 
         while (true) {
-            System.out.println("==================================");
+            System.out.println("======================================");
             System.out.println("=     欢迎来到神临组的文字RPG游戏     =");
-            System.out.println("==================================");
+            System.out.println("======================================");
             System.out.println("请选择操作：1登录 2注册 3退出");
 
             Scanner sc = new Scanner(System.in);
@@ -95,7 +95,7 @@ public class login {
         Scanner sc = new Scanner(System.in);
         //ctrl+alt+T  语句包裹
         while (true) {
-            System.out.println("请输入用户名：");
+            System.out.println("请输入用户名（长度3-16位，包含字母和数字）：");
             String username = sc.next();
             //验证用户名是否合法
             if (!checklen(username,3,16)) {
@@ -115,9 +115,9 @@ public class login {
         }   //输入用户名
 
         while (true) {
-            System.out.println("请输入密码：");
+            System.out.println("请输入密码（3-8位，包含字母和数字）：");
             String password1 = sc.next();
-            System.out.println("请再次输入密码：");
+            System.out.println("请再次输入密码（3-8位，包含字母和数字）：");
             String password2 = sc.next();
             if (!checklen(password1,3,8)){
                 System.out.println("密码长度必须在3-8之间");
